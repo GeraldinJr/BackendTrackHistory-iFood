@@ -18,7 +18,7 @@ public class PessoaEntregadora {
 	@Column(name="id", nullable=false)
 	private Integer id;
 	
-	@Column(name="nome_entregador")
+	@Column(name="nome")
 	private String nome;
 	
 	@Column(name="email")

@@ -16,8 +16,8 @@ public class Cliente {
 	@Column(name="id", nullable=false)
 	private Integer id;
 	
-	@Column(name="nome_cliente", nullable=false)
-	private String nomeCliente;
+	@Column(name="nome", nullable=false)
+	private String nome;
 
 	public Integer getId() {
 		return id;
@@ -27,12 +27,12 @@ public class Cliente {
 		this.id = id;
 	}
 
-	public String getNomeCliente() {
-		return nomeCliente;
+	public String getNome() {
+		return nome;
 	}
 
 	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
+		this.nome = nomeCliente;
 	}
 	
 }

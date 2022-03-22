@@ -1,5 +1,7 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.models;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +21,7 @@ public class TrackHistory {
 	private Integer id;
 	
 	@Column(name="instante_registro", nullable=false)
-	private String instante;
+	private Timestamp instante;
 	
 	@Column(name="latitude", nullable=false)
 	private String latitude;
@@ -28,11 +30,11 @@ public class TrackHistory {
 	private String longitude;
 	
 	@ManyToOne
-	@JoinColumn(name="pedido")
+	@JoinColumn(name="pedido_id")
 	private Pedido pedido;
 	
 	@ManyToOne
-	@JoinColumn(name="entregador")
+	@JoinColumn(name="pessoa_entregadora_id")
 	private PessoaEntregadora pessoaEntregadora;
 
 	public Integer getId() {
@@ -43,11 +45,11 @@ public class TrackHistory {
 		this.id = id;
 	}
 
-	public String getInstante() {
+	public Timestamp getInstante() {
 		return instante;
 	}
 
-	public void setInstante(String instante) {
+	public void setInstante(Timestamp instante) {
 		this.instante = instante;
 	}
 
@@ -82,5 +84,5 @@ public class TrackHistory {
 	public void setPessoaEntregadora(PessoaEntregadora pessoaEntregadora) {
 		this.pessoaEntregadora = pessoaEntregadora;
 	}
-	
+
 }
