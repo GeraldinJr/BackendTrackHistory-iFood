@@ -25,3 +25,4 @@ hs_err_pid*
 # custom
 *.DS_Store
 *.idea
+target
