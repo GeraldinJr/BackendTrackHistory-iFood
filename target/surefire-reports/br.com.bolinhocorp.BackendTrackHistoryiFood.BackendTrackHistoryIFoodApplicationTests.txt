@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: br.com.bolinhocorp.BackendTrackHistoryiFood.BackendTrackHistoryIFoodApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.454 s - in br.com.bolinhocorp.BackendTrackHistoryiFood.BackendTrackHistoryIFoodApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.518 s - in br.com.bolinhocorp.BackendTrackHistoryiFood.BackendTrackHistoryIFoodApplicationTests
