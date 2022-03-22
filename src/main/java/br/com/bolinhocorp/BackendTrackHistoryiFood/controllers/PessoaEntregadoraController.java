@@ -24,7 +24,7 @@ public class PessoaEntregadoraController {
 	public ResponseEntity<?> cadastro(@RequestBody PessoaCadastroDTO pessoa) {
 
 		PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
-		if (pessoaJaExiste == null) {
+		if (pessoaJaExiste != null) {
 			return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
 		}
 

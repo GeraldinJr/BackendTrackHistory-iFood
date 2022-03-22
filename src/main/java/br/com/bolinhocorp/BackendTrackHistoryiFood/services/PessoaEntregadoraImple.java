@@ -37,6 +37,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora{
 
 	@Override
 	public PessoaEntregadora CadastrarPessoaEntregadora(PessoaEntregadora pessoa) {
+		pessoa.setId(null);
 		return dao.save(pessoa);
 	}
 
