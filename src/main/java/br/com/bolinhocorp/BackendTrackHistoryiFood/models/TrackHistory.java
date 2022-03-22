@@ -24,10 +24,10 @@ public class TrackHistory {
 	private Timestamp instante;
 	
 	@Column(name="latitude", nullable=false)
-	private String latitude;
+	private Double latitude;
 	
 	@Column(name="longitude", nullable=false)
-	private String longitude;
+	private Double longitude;
 	
 	@ManyToOne
 	@JoinColumn(name="pedido_id")
@@ -53,19 +53,19 @@ public class TrackHistory {
 		this.instante = instante;
 	}
 
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
