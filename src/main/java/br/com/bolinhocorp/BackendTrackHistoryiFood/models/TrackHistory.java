@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,11 +27,11 @@ public class TrackHistory {
 	@Column(name="longitude", nullable=false)
 	private String longitude;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="pedido")
 	private Pedido pedido;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="entregador")
 	private PessoaEntregadora pessoaEntregadora;
 
