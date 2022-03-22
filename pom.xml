@@ -14,7 +14,7 @@
 	<name>BackendTrackHistory-iFood</name>
 	<description>Projeto de telemetria dos entregadores do iFood</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
