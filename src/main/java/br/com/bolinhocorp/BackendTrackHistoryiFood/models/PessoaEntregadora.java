@@ -11,8 +11,6 @@ import javax.persistence.Table;
 @Table(name="pessoa_entregadora")
 public class PessoaEntregadora {
 	
-	//------> Preciso alterar o nome da coluna de nome e o nome da tabela
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id", nullable=false)
