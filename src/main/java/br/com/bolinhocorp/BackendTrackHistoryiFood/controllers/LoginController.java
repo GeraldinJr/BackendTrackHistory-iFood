@@ -21,10 +21,15 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin){
+		
+		if(dadosLogin.getEmail()==null || dadosLogin.getSenha() == null) {
+			return ResponseEntity.badRequest().body(new Message("Favor, informar e-mail e senha"));
+		}
+		
 		Token token = service.gerarTokenUsuarioLogado(dadosLogin);
 		
 		if(token == null) {
-			return ResponseEntity.badRequest().body(new Message("E-mail e/ou senha incorreto(s)"));
+			return ResponseEntity.status(401).body(new Message("E-mail e/ou senha incorreto(s)"));
 		}
 		
 		return ResponseEntity.ok(token);

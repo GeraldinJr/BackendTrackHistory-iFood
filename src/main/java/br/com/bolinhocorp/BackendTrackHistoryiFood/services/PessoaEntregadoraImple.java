@@ -2,7 +2,6 @@ package br.com.bolinhocorp.BackendTrackHistoryiFood.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PessoaEntregadoraDAO;
@@ -22,6 +21,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 	public Token gerarTokenUsuarioLogado(PessoaLoginDTO dadosLogin) {
 		try {
 			PessoaEntregadora pessoa = dao.findByEmail(dadosLogin.getEmail());
+			
 			if (pessoa != null) {
 				// Fazer o encript da senha e conferir as senhas
 				return new Token(TokenUtil.createToken(dadosLogin));
@@ -42,6 +42,11 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 	public PessoaEntregadora CadastrarPessoaEntregadora(PessoaEntregadora pessoa) {
 		try {
 			pessoa.setId(null);
+			
+			if(pessoa.getSenha().length()<6) {
+				throw new DadosInvalidosException("A senha deve ter 6 ou mais caracteres");
+			}
+			
 			return dao.save(pessoa);
 			
 		} catch (DataIntegrityViolationException e) {
@@ -49,7 +54,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 		} catch (NullPointerException ex) {
 			throw new DadosInvalidosException("Dados invalidos");
 		} catch (Exception e) {
-			throw new DadosInvalidosException("Dados invalidos");
+			throw new DadosInvalidosException(e.getMessage());
 		}
 	}
 

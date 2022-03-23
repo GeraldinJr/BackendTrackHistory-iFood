@@ -1,7 +1,6 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,14 +38,10 @@ public class PessoaEntregadoraController {
 
 			PessoaEntregadora pessoaCadastrada = service.CadastrarPessoaEntregadora(new PessoaEntregadora(pessoa));
 
-			if (pessoaCadastrada == null) {
-				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
-			}
-
 			return ResponseEntity.status(201).body(new PessoaCadastradaDTO(pessoaCadastrada));
 
 		} catch(DadosInvalidosException e) {
-			return ResponseEntity.badRequest().body(new Message("Dados invalidos"));
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 			
 		} 
 	}
