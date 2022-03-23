@@ -5,7 +5,7 @@ public class PessoaCadastroDTO {
 	private String email;
 	private String nome;
 	private String senha;
-	private String ConfirmaSenha;
+	private String confirma_senha;
 	
 	
 	public String getEmail() {
@@ -26,11 +26,11 @@ public class PessoaCadastroDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getConfirmaSenha() {
-		return ConfirmaSenha;
+	public String getConfirma_senha() {
+		return confirma_senha;
 	}
-	public void setConfirmaSenha(String confirmaSenha) {
-		ConfirmaSenha = confirmaSenha;
+	public void setConfirma_senha(String confirma_senha) {
+		this.confirma_senha = confirma_senha;
 	}
 	
 }

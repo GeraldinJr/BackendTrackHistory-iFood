@@ -1,6 +1,7 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaCadastradaDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaCadastroDTO;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Message;
@@ -23,22 +25,35 @@ public class PessoaEntregadoraController {
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastro(@RequestBody PessoaCadastroDTO pessoa) {
 
-		PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
-		if (pessoaJaExiste != null) {
-			return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
-		}
+		try {
 
-		if (!pessoa.getSenha().equals(pessoa.getConfirmaSenha())) {
-			return ResponseEntity.badRequest().body(new Message("Campos de senha diferentes"));
-		}
+			PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
+			
+			if (pessoaJaExiste != null) {
+				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
+			}
 
-		PessoaEntregadora pessoaCadastrada = service.CadastrarPessoaEntregadora(new PessoaEntregadora(pessoa));
-		
-		if(pessoaCadastrada == null) {
-			return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
-		}
+			if (!pessoa.getSenha().equals(pessoa.getConfirma_senha())) {
+				return ResponseEntity.badRequest().body(new Message("Campos de senha diferentes"));
+			}
 
-		return ResponseEntity.status(201).body(new PessoaCadastradaDTO(pessoaCadastrada));
+			PessoaEntregadora pessoaCadastrada = service.CadastrarPessoaEntregadora(new PessoaEntregadora(pessoa));
+
+			if (pessoaCadastrada == null) {
+				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
+			}
+
+			return ResponseEntity.status(201).body(new PessoaCadastradaDTO(pessoaCadastrada));
+
+		} catch(DataIntegrityViolationException e) {
+			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
+			
+		} catch (NullPointerException ex) {
+			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
+		}
 	}
 
 }
