@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaLoginDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -22,17 +22,17 @@ public class TokenUtil {
 	private static final int    HORAS    = 60*MINUTOS;
 	private static final int    DIAS     = 24*HORAS;
 	
-	private static final String HEADER = "Authorization";  // cabecalho http
-	private static final String PREFIX = "Bearer ";        // prefixo do token
-	private static final long   EXPIRATION = 5*MINUTOS;    // tempo de validade
-	private static final String SECRET_KEY = "*admin123!#";  // palavra chave do token
+	private static final String HEADER = "Authorization";  
+	private static final String PREFIX = "Bearer ";        
+	private static final long   EXPIRATION = 5*MINUTOS;    
+	private static final String SECRET_KEY = "0B0l1nh0D3J4v43st4f4z3nd05uc3550!";  
 	private static final String EMISSOR    = "BolinhoDeJava";
 	
-	public static String createToken(PessoaEntregadora pessoaEntregadora) {
-		// crio uma chave através dos bytes dessa SECRET_KEY que defini
+	public static String createToken(PessoaLoginDTO pessoaDTO) {
+		
 		Key secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 		
-		String token = Jwts.builder().setSubject(pessoaEntregadora.getEmail())
+		String token = Jwts.builder().setSubject(pessoaDTO.getEmail())
 								     .setIssuer(EMISSOR)
 								     .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
 								     .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -43,7 +43,7 @@ public class TokenUtil {
 	
 	/* posso criar métodos auxiliares para ajudar na validação */
 	private static boolean isExpirationValid(Date expiration) {
-		return expiration.after(new Date(System.currentTimeMillis()));	// a expiração para ser válida tem que ser após a data atual	
+		return expiration.after(new Date(System.currentTimeMillis()));		
 	}
 	private static boolean isEmissorValid(String emissor) {
 		return emissor.equals(EMISSOR);
@@ -55,7 +55,8 @@ public class TokenUtil {
 	public static Authentication validate(HttpServletRequest request) {
 		// extrair o token do cabeçalho
 		String token = request.getHeader(HEADER);
-		token = token.replace(PREFIX, ""); // removi o prefixo "Bearer " do token
+		token = token.replace(PREFIX, ""); 
+		
 		// extrair as infos relevantes que eu quero do token
 		
 		Jws<Claims> jwsClaims = Jwts.parserBuilder().setSigningKey(SECRET_KEY.getBytes())
@@ -66,7 +67,7 @@ public class TokenUtil {
 		String issuer   = jwsClaims.getBody().getIssuer();
 		Date   expira   = jwsClaims.getBody().getExpiration();
 		
-		// se for válido, retorno um objeto do tipo Authentication
+		
 		if (isSubjectValid(email) && isEmissorValid(issuer) && isExpirationValid(expira)) {
 			// eu preciso criar um objeto de Autenticação
 			// o objeto é bem completo, onde podemos incluir o nível de autorização,
