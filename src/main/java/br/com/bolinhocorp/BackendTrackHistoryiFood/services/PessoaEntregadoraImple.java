@@ -8,6 +8,7 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PessoaEntregadoraDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaLoginDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Cripto;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Token;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.TokenUtil;
 
@@ -23,14 +24,18 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 			PessoaEntregadora pessoa = dao.findByEmail(dadosLogin.getEmail());
 			
 			if (pessoa != null) {
-				// Fazer o encript da senha e conferir as senhas
+				String senhaLogin = Cripto.encrypt(dadosLogin.getSenha());
+				if(!pessoa.getSenha().equals(senhaLogin)) {
+					throw new DadosInvalidosException("E-mail e/ou senha incorreto(s)");
+				}
+				
 				return new Token(TokenUtil.createToken(dadosLogin));
 			}
 
+			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new DadosInvalidosException(e.getMessage());
 		}
-		return null;
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 			if(pessoa.getSenha().length()<6) {
 				throw new DadosInvalidosException("A senha deve ter 6 ou mais caracteres");
 			}
-			
+			pessoa.setSenha(Cripto.encrypt(pessoa.getSenha()));
 			return dao.save(pessoa);
 			
 		} catch (DataIntegrityViolationException e) {
