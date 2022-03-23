@@ -24,8 +24,8 @@ create table pedido(
 create table track_history(
 	id      serial not null primary key, 
 	instante_registro  timestamp not null,
-    latitude     varchar(20) not null,
-    longitude     varchar(20) not null, 
+    latitude     double precision not null,
+    longitude     double precision not null,
 	pedido_id   integer not null, 
     pessoa_entregadora_id   integer not null, 
 

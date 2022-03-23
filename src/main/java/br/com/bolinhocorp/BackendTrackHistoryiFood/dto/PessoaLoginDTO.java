@@ -15,6 +15,4 @@ public class PessoaLoginDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-
 }
