@@ -45,15 +45,10 @@ public class PessoaEntregadoraController {
 
 			return ResponseEntity.status(201).body(new PessoaCadastradaDTO(pessoaCadastrada));
 
-		} catch(DataIntegrityViolationException e) {
-			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
+		} catch(DadosInvalidosException e) {
+			return ResponseEntity.badRequest().body(new Message("Dados invalidos"));
 			
-		} catch (NullPointerException ex) {
-			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
-
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new DadosInvalidosException("Dados invalidos"));
-		}
+		} 
 	}
 
 }
