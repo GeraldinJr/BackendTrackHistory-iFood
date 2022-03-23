@@ -37,11 +37,10 @@ public class TokenUtil {
 								     .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
 								     .signWith(secretKey, SignatureAlgorithm.HS256)
 								     .compact();
-		System.out.println("TOKEN gerado = "+token);
+		
 		return PREFIX + token;
 	}
 	
-	/* posso criar métodos auxiliares para ajudar na validação */
 	private static boolean isExpirationValid(Date expiration) {
 		return expiration.after(new Date(System.currentTimeMillis()));		
 	}
@@ -53,11 +52,9 @@ public class TokenUtil {
 	}
 	
 	public static Authentication validate(HttpServletRequest request) {
-		// extrair o token do cabeçalho
+		
 		String token = request.getHeader(HEADER);
 		token = token.replace(PREFIX, ""); 
-		
-		// extrair as infos relevantes que eu quero do token
 		
 		Jws<Claims> jwsClaims = Jwts.parserBuilder().setSigningKey(SECRET_KEY.getBytes())
 				                                    .build()
@@ -69,10 +66,7 @@ public class TokenUtil {
 		
 		
 		if (isSubjectValid(email) && isEmissorValid(issuer) && isExpirationValid(expira)) {
-			// eu preciso criar um objeto de Autenticação
-			// o objeto é bem completo, onde podemos incluir o nível de autorização,
-			// qual a lista de endpoints que o usuário pode acessar e assim por diante... 
-			// nosso caso é mais simples.. pois não estamos tratando endpoints específicos para diferentes usuários
+			
 			return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
 		}
 	

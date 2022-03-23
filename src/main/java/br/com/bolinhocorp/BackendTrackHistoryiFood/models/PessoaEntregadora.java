@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaCadastroDTO;
+
 @Entity
 @Table(name="pessoa_entregadora")
 public class PessoaEntregadora {
@@ -24,6 +26,17 @@ public class PessoaEntregadora {
 	
 	@Column(name="senha")
 	private String senha;
+	
+	public PessoaEntregadora() {
+		super();
+	}
+	
+	public PessoaEntregadora(PessoaCadastroDTO dadosCadastro) {
+		super();
+		this.email = dadosCadastro.getEmail();
+		this.nome = dadosCadastro.getNome();
+		this.senha = dadosCadastro.getSenha();
+	}
 
 	public Integer getId() {
 		return id;
