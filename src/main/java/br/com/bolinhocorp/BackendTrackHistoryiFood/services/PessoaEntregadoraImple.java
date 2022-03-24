@@ -25,11 +25,12 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 			
 			if (pessoa != null) {
 				String senhaLogin = Cripto.encrypt(dadosLogin.getSenha());
+				
 				if(!pessoa.getSenha().equals(senhaLogin)) {
 					throw new DadosInvalidosException("E-mail e/ou senha incorreto(s)");
 				}
 				
-				return new Token(TokenUtil.createToken(dadosLogin));
+				return new Token(TokenUtil.createToken(dadosLogin, pessoa.getId()));
 			}
 
 			return null;
@@ -61,6 +62,11 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 		} catch (Exception e) {
 			throw new DadosInvalidosException(e.getMessage());
 		}
+	}
+
+	@Override
+	public PessoaEntregadora findById(Integer id) {
+		return dao.findById(id).orElse(null);
 	}
 
 }

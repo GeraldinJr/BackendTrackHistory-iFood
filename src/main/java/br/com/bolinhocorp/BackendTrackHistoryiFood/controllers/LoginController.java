@@ -2,7 +2,9 @@ package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,12 @@ public class LoginController {
 	
 	@Autowired
 	private IPessoaEntregadora service;
+	
+	@GetMapping("/")
+	public ResponseEntity<?> home(){
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		return ResponseEntity.ok("Bem vindo");
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin){

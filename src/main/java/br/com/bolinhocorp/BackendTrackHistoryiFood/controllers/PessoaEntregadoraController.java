@@ -27,7 +27,7 @@ public class PessoaEntregadoraController {
 		try {
 
 			PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
-			
+
 			if (pessoaJaExiste != null) {
 				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
 			}
@@ -40,10 +40,10 @@ public class PessoaEntregadoraController {
 
 			return ResponseEntity.status(201).body(new PessoaCadastradaDTO(pessoaCadastrada));
 
-		} catch(DadosInvalidosException e) {
+		} catch (DadosInvalidosException e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
-			
-		} 
+
+		}
 	}
 
 }
