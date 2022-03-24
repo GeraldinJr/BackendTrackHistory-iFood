@@ -29,5 +29,4 @@ public class PedidoServiceImple implements IPedidoService{
 		p.setStatusPedido(Status.EM_ROTA);
 		dao.save(p);
 	}
-
 }

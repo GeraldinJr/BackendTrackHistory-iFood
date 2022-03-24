@@ -24,7 +24,7 @@ public class TokenUtil {
 	
 	private static final String HEADER = "Authorization";  
 	private static final String PREFIX = "Bearer ";        
-	private static final long   EXPIRATION = 5*MINUTOS;    
+	private static final long   EXPIRATION = 5*DIAS;
 	private static final String SECRET_KEY = "0B0l1nh0D3J4v43st4f4z3nd05uc3550!";  
 	private static final String EMISSOR    = "BolinhoDeJava";
 	
