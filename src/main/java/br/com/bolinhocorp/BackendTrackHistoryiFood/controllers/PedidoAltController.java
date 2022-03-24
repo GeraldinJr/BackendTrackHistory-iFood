@@ -1,6 +1,5 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
-import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,8 +15,10 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPedidoService;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPessoaEntregadora;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.services.ITrackHistoryService;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Message;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 
 @RestController
 @CrossOrigin("*")
@@ -25,15 +26,15 @@ public class PedidoAltController {
 
 	@Autowired
 	private IPedidoService servicePedido;
-	
+
 	@Autowired
 	private IPessoaEntregadora servicePessoa;
 
+	@Autowired
+	private ITrackHistoryService serviceTrack;
+
 	@PostMapping("/pedidos/{id}/atribuir-pedido")
-	public ResponseEntity<?> atribuicao(@PathVariable Integer id, @RequestBody DadosGeoDTO d) {
-		// Verificar se o pedido existe
-		// Verificar se o pedido esta aberto
-		// Se nao estiver aberto, ja cancela
+	public ResponseEntity<?> atribuicao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 		try {
 
 			Pedido pedido = servicePedido.findById(id);
@@ -41,18 +42,13 @@ public class PedidoAltController {
 			if (pedido == null || pedido.getStatusPedido() != Status.EM_ABERTO) {
 				throw new DadosInvalidosException("Pedido Indisponivel");
 			}
-			//alterar o status do pedido
-			//pegar os dados e fazer insercao no track
-			servicePedido.colocarEmRota(id);
-			
-			
-			Integer  idPessoaEntregadora = MethodsUtil.getIdPessoa();
+
+			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
 			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
-			
-			TrackHistory track = new TrackHistory(d, pedido, pessoa);
-			
-			System.out.println(track);
-			
+			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
+
+			serviceTrack.cadastrarTracking(track);
+			servicePedido.colocarEmRota(id);
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
