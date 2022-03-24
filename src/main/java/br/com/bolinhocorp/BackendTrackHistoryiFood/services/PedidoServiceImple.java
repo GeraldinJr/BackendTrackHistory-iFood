@@ -1,5 +1,6 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.services;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class PedidoServiceImple implements IPedidoService{
 	@Override
 	public void colocarEmRota(int id) {
 		Pedido p = dao.findById(id).orElse(null);
-		p.setStatusPedido(2);
+		p.setStatusPedido(Status.EM_ROTA);
 		dao.save(p);
 	}
 

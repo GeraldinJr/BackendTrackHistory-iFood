@@ -8,11 +8,11 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 
 public interface PedidoDAO extends CrudRepository<Pedido, Integer> {
 	
-//	@Modifying
-//	@Query("update "
-//			+ "new br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido() p "
-//			+ "set p.status = 1 where p.id = :id"
-//			)
-//	public void colocarPedidoEmRota(Integer id);
+@Modifying
+@Query("update "
+		+ "new br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido() p "
+		+ "set p.status = where p.id = :id"
+		)
+public void colocarPedidoEmRota(Integer id);
 
 }

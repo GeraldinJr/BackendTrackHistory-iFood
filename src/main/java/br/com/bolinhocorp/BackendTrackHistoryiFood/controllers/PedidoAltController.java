@@ -1,5 +1,6 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +38,7 @@ public class PedidoAltController {
 
 			Pedido pedido = servicePedido.findById(id);
 
-			if (pedido == null || pedido.getStatusPedido() != 0) {
+			if (pedido == null || pedido.getStatusPedido() != Status.EM_ABERTO) {
 				throw new DadosInvalidosException("Pedido Indisponivel");
 			}
 			//alterar o status do pedido

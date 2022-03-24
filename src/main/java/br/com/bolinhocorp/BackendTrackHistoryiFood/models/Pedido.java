@@ -1,5 +1,7 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.models;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
+
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -12,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pedido")
+@Table(name="pedidos")
 public class Pedido {
 	
 	@Id
@@ -24,8 +26,8 @@ public class Pedido {
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
-	@Column(name="status_pedido")
-	private Integer statusPedido;
+	@Column(name="status")
+	private Status statusPedido;
 	
 	@Column(name="ultima_alteracao", nullable=false)
 	private Timestamp ultimaAlteracao;
@@ -46,11 +48,11 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public Integer getStatusPedido() {
+	public Status getStatusPedido() {
 		return statusPedido;
 	}
 
-	public void setStatusPedido(Integer statusPedido) {
+	public void setStatusPedido(Status statusPedido) {
 		this.statusPedido = statusPedido;
 	}
 
