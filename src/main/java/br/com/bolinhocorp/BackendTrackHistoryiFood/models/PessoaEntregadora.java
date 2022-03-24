@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaCadastroDTO;
 
 @Entity
-@Table(name="pessoa_entregadora")
+@Table(name="pessoas_entregadoras")
 public class PessoaEntregadora {
 	
 	@Id

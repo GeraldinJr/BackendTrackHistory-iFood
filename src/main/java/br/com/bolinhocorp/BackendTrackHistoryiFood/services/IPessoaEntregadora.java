@@ -9,5 +9,6 @@ public interface IPessoaEntregadora {
 	public Token gerarTokenUsuarioLogado(PessoaLoginDTO dadosLogin);
 	public PessoaEntregadora recuperarPorEmail(String email);
 	public PessoaEntregadora CadastrarPessoaEntregadora(PessoaEntregadora pessoa);
+	public PessoaEntregadora findById(Integer id);
 
 }

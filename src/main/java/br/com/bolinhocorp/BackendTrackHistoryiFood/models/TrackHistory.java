@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoDTO;
+
 @Entity
 @Table(name="track_history")
 public class TrackHistory {
@@ -36,6 +38,20 @@ public class TrackHistory {
 	@ManyToOne
 	@JoinColumn(name="pessoa_entregadora_id")
 	private PessoaEntregadora pessoaEntregadora;
+	
+	public TrackHistory() {
+		super();
+	}
+	public TrackHistory(DadosGeoDTO geo, Pedido pedido,
+			PessoaEntregadora pessoaEntregadora) {
+		super();
+		this.instante = new Timestamp(System.currentTimeMillis());
+		this.latitude = geo.getLatitude();
+		this.longitude = geo.getLongitude();
+		this.pedido = pedido;
+		this.pessoaEntregadora = pessoaEntregadora;
+	}
+
 
 	public Integer getId() {
 		return id;

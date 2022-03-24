@@ -28,11 +28,11 @@ public class TokenUtil {
 	private static final String SECRET_KEY = "0B0l1nh0D3J4v43st4f4z3nd05uc3550!";  
 	private static final String EMISSOR    = "BolinhoDeJava";
 	
-	public static String createToken(PessoaLoginDTO pessoaDTO) {
+	public static String createToken(PessoaLoginDTO pessoaDTO, Integer id) {
 		
 		Key secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 		
-		String token = Jwts.builder().setSubject(pessoaDTO.getEmail())
+		String token = Jwts.builder().setSubject(Integer.toString(id))
 								     .setIssuer(EMISSOR)
 								     .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
 								     .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -60,14 +60,14 @@ public class TokenUtil {
 				                                    .build()
 				                                    .parseClaimsJws(token);
 		
-		String email = jwsClaims.getBody().getSubject();
+		String id = jwsClaims.getBody().getSubject();
 		String issuer   = jwsClaims.getBody().getIssuer();
 		Date   expira   = jwsClaims.getBody().getExpiration();
 		
 		
-		if (isSubjectValid(email) && isEmissorValid(issuer) && isExpirationValid(expira)) {
+		if (isSubjectValid(id) && isEmissorValid(issuer) && isExpirationValid(expira)) {
 			
-			return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+			return new UsernamePasswordAuthenticationToken(id, null, Collections.emptyList());
 		}
 	
 		return null; 
