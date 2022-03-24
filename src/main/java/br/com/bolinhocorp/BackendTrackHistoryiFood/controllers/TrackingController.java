@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoDTO;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoMaisInstDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
@@ -22,39 +23,45 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 
 @RestController
 @CrossOrigin("*")
-public class PedidoAltController {
+public class TrackingController {
 
 	@Autowired
-	private IPedidoService servicePedido;
+	private ITrackHistoryService serviceTrack;
 
 	@Autowired
 	private IPessoaEntregadora servicePessoa;
 
 	@Autowired
-	private ITrackHistoryService serviceTrack;
+	private IPedidoService servicePedido;
 
-	@PostMapping("/pedidos/{id}/atribuir-pedido")
-	public ResponseEntity<?> atribuicao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
+	@PostMapping("/pedidos/{id}/geolocalizacao")
+	public ResponseEntity<?> adicionarTracking(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
+
 		try {
 
 			Pedido pedido = servicePedido.findById(id);
-
-			if (pedido == null || pedido.getStatusPedido() != Status.EM_ABERTO) {
-				throw new DadosInvalidosException("Pedido Indisponivel");
+			
+			if(pedido == null || pedido.getStatusPedido()!= Status.EM_ROTA) {
+				throw new DadosInvalidosException("Pedido Indisponivel, pois nao esta em rota");
 			}
 
 			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
+			
+			// Procurar o ultimo track history no banco e verificar se eh a mesma pessoa
+			// entregadora
+			// Se nao for a mesma, mandar um erro, se for, continua
+			
+
 			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
-
-			serviceTrack.cadastrarTracking(track);
-			servicePedido.colocarEmRota(id);
 			
-			return ResponseEntity.ok().build();
-
+			serviceTrack.cadastrarTracking(track);
+			
+			 return ResponseEntity.status(201).body(new DadosGeoMaisInstDTO(dadosGeo));
+			
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 		}
-	}
 
+	}
 }
