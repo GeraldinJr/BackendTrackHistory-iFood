@@ -2,10 +2,9 @@ package br.com.bolinhocorp.BackendTrackHistoryiFood.dao;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrackHistoryDAO extends CrudRepository<TrackHistory, Integer>{

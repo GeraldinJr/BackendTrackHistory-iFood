@@ -45,12 +45,12 @@ public class PedidoAltController {
 
 			serviceTrack.cadastrarTracking(track);
 			servicePedido.colocarEmRota(id);
+			
+			return ResponseEntity.ok().build();
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 		}
-
-		return null;
 	}
 
 	@PatchMapping("/pedidos/{id}/concluir")
