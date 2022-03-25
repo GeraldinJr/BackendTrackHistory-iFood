@@ -52,6 +52,14 @@ public class TrackHistory {
 		this.pessoaEntregadora = pessoaEntregadora;
 	}
 
+	public TrackHistory(Integer id, Timestamp instante, Double latitude, Double longitude, Pedido pedido, PessoaEntregadora pessoaEntregadora) {
+		this.id = id;
+		this.instante = instante;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.pedido = pedido;
+		this.pessoaEntregadora = pessoaEntregadora;
+	}
 
 	public Integer getId() {
 		return id;

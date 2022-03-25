@@ -73,7 +73,7 @@ public class PedidoAltController {
 
 			TrackHistory novaTrack = new TrackHistory(dadosGeo, pedido, pessoa);
 
-			serviceTrack.cadastrarTracking(track);
+			serviceTrack.cadastrarTracking(novaTrack);
 			servicePedido.concluir(pedido);
 
 			return ResponseEntity.ok().body(null);
