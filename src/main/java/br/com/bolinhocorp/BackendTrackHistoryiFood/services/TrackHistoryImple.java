@@ -35,7 +35,7 @@ public class TrackHistoryImple implements ITrackHistoryService {
 	public ArrayList<DadosGeoMaisInstDTO> recuperarTodos(Integer id) {
 		try {
 			
-			List<TrackHistory> res = (List<TrackHistory>)dao.findAll();
+			List<TrackHistory> res = (List<TrackHistory>)dao.findByPedido_id(id);
 			
 			ArrayList<DadosGeoMaisInstDTO> lista = new ArrayList<DadosGeoMaisInstDTO>();
 			
