@@ -20,8 +20,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					  .and()
 					  .authorizeRequests() 
 					  // quais são as requisições que eu quero permitir
-					  .antMatchers(HttpMethod.POST, "/login").permitAll()
-					  .antMatchers(HttpMethod.POST, "/cadastro").permitAll()
+					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/login").permitAll()
+					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/cadastro").permitAll()
 					  .antMatchers(HttpMethod.GET, "/pedidos").permitAll()
 //					  .antMatchers(HttpMethod.GET, "/produtos/*").permitAll()
 //					  .antMatchers(HttpMethod.POST, "/login").permitAll()

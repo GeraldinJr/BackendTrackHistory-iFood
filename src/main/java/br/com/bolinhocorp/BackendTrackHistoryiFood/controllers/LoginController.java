@@ -28,7 +28,7 @@ public class LoginController {
 		return ResponseEntity.ok("Bem vindo");
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/pessoa-entregadora/login")
 	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin) {
 
 		try {

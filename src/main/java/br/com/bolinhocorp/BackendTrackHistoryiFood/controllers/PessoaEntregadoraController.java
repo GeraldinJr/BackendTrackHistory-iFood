@@ -21,7 +21,7 @@ public class PessoaEntregadoraController {
 	@Autowired
 	private IPessoaEntregadora service;
 
-	@PostMapping("/cadastro")
+	@PostMapping("/pessoa-entregadora/cadastro")
 	public ResponseEntity<?> cadastro(@RequestBody PessoaCadastroDTO pessoa) {
 
 		try {
@@ -32,7 +32,7 @@ public class PessoaEntregadoraController {
 				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
 			}
 
-			if (!pessoa.getSenha().equals(pessoa.getConfirma_senha())) {
+			if (!pessoa.getSenha().equals(pessoa.getConfirmacao_senha())) {
 				return ResponseEntity.badRequest().body(new Message("Campos de senha diferentes"));
 			}
 
