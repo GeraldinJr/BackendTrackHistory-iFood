@@ -8,4 +8,5 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
 public interface ITrackHistoryService {
 	public TrackHistory cadastrarTracking(TrackHistory track);
 	public ArrayList<DadosGeoMaisInstDTO> recuperarTodos(Integer id);
+	public TrackHistory recuperarUltimoPeloPedidoId(Integer id);
 }

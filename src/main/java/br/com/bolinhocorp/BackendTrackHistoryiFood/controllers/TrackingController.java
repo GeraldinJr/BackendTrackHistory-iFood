@@ -44,18 +44,20 @@ public class TrackingController {
 		try {
 
 			Pedido pedido = servicePedido.findById(id);
+			TrackHistory ultimoTrack = serviceTrack.recuperarUltimoPeloPedidoId(id);
 
 			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
 				throw new DadosInvalidosException("Pedido Indisponivel, pois nao esta em rota");
 			}
 
-			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
+			Integer idPessoaLogada = MethodsUtil.getIdPessoa();
+			Integer idPessoaEntregadora = ultimoTrack.getPessoaEntregadora().getId();
+			
+			if(idPessoaEntregadora != idPessoaLogada) {
+				return ResponseEntity.status(401).body(new Message("Nao autorizado para esse pedido"));
+			}
 
-			// Procurar o ultimo track history no banco e verificar se eh a mesma pessoa
-			// entregadora
-			// Se nao for a mesma, mandar um erro, se for, continua
-
-			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
+			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaLogada);
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
 
 			serviceTrack.cadastrarTracking(track);
@@ -84,7 +86,7 @@ public class TrackingController {
 			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
 
 
-			return ResponseEntity.status(201).body(new TrackingsEnvioMV(lista));
+			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista));
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));

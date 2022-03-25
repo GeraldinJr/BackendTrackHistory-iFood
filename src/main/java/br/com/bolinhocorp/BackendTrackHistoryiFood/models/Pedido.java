@@ -18,7 +18,8 @@ public class Pedido {
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
-	
+
+
 	@Column(name="status")
 	@Enumerated(EnumType.STRING)
 	private Status statusPedido;

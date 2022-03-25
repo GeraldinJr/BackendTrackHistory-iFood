@@ -2,11 +2,7 @@ package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
@@ -55,6 +51,36 @@ public class PedidoAltController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 		}
+	}
+
+	@PatchMapping("/pedidos/{id}/concluir")
+	public ResponseEntity<?> conclusao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
+
+		try {
+			Pedido pedido = servicePedido.findById(id);
+			TrackHistory track = serviceTrack.recuperarUltimoPeloPedidoId(id);
+
+			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
+				throw new DadosInvalidosException("Não é possível concluir o pedido");
+			}
+
+			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
+			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
+
+			if (!track.getPessoaEntregadora().equals(pessoa)) {
+				return ResponseEntity.status(401).body(new Message("Não autorizado para concluir este pedido"));
+			}
+
+			TrackHistory novaTrack = new TrackHistory(dadosGeo, pedido, pessoa);
+
+			serviceTrack.cadastrarTracking(novaTrack);
+			servicePedido.concluir(pedido);
+
+			return ResponseEntity.ok().body(null);
+		} catch(Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
+		}
+
 	}
 
 }
