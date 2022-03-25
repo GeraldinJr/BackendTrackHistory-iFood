@@ -7,5 +7,6 @@ public interface IPedidoService {
 	public Pedido findById(int id);
 	public void colocarEmRota(int id);
 	public void concluir(Pedido pedido);
+	public void cancelar(Pedido pedido);
 
 }

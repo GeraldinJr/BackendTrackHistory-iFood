@@ -37,4 +37,10 @@ public class PedidoServiceImple implements IPedidoService{
 		pedido.setStatusPedido(Status.CONCLUIDO);
 		dao.save(pedido);
 	}
+
+	@Override
+	public void cancelar(Pedido pedido) {
+		pedido.setStatusPedido(Status.CANCELADO);
+		dao.save(pedido);
+	}
 }
