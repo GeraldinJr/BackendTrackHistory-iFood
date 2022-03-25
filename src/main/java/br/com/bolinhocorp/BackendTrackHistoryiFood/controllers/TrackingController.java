@@ -94,4 +94,29 @@ public class TrackingController {
 
 	}
 
+	@GetMapping("/pedidos/{id}/geolocalizacao")
+	public ResponseEntity<?> recuperarUltimaGeolocalizacao(@PathVariable Integer id) {
+		try {
+
+			Pedido pedido = servicePedido.findById(id);
+
+			if (pedido == null) {
+				throw new DadosInvalidosException("Pedido Indisponivel");
+			}
+			if(pedido.getStatusPedido()==Status.EM_ABERTO) {
+				return ResponseEntity.notFound().build();
+			}
+
+			TrackHistory track = serviceTrack.recuperarUltimoPeloPedidoId(id);
+			DadosGeoMaisInstDTO geolocalizacao = new DadosGeoMaisInstDTO(track);
+
+
+			return ResponseEntity.ok().body(geolocalizacao);
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
+		}
+
+	}
+
 }
