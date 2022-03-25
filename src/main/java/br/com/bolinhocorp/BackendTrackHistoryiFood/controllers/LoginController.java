@@ -10,36 +10,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaLoginDTO;
-import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Token;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.TokenENomeDTO;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Message;
 
 @RestController
 @CrossOrigin("*")
 public class LoginController {
-	
+
 	@Autowired
 	private IPessoaEntregadora service;
-	
+
 	@GetMapping("/")
-	public ResponseEntity<?> home(){
+	public ResponseEntity<?> home() {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return ResponseEntity.ok("Bem vindo");
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin){
-		
-		if(dadosLogin.getEmail()==null || dadosLogin.getSenha() == null) {
-			return ResponseEntity.badRequest().body(new Message("Favor, informar e-mail e senha"));
+	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin) {
+
+		try {
+			if (dadosLogin.getEmail() == null || dadosLogin.getSenha() == null) {
+				throw new DadosInvalidosException("Favor informar e-mail e senha");
+			}
+
+			TokenENomeDTO token = service.gerarTokenUsuarioLogado(dadosLogin);
+
+			if (token == null) {
+				return ResponseEntity.status(401).body(new Message("E-mail e/ou senha incorreto(s)"));
+			}
+
+			return ResponseEntity.ok(token);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 		}
-		
-		Token token = service.gerarTokenUsuarioLogado(dadosLogin);
-		
-		if(token == null) {
-			return ResponseEntity.status(401).body(new Message("E-mail e/ou senha incorreto(s)"));
-		}
-		
-		return ResponseEntity.ok(token);
 	}
 }
