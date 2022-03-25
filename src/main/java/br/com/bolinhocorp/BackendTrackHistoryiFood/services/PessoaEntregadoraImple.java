@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PessoaEntregadoraDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaLoginDTO;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.TokenENomeDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Cripto;
-import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Token;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.TokenUtil;
 
 @Component
@@ -19,7 +19,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 	private PessoaEntregadoraDAO dao;
 
 	@Override
-	public Token gerarTokenUsuarioLogado(PessoaLoginDTO dadosLogin) {
+	public TokenENomeDTO gerarTokenUsuarioLogado(PessoaLoginDTO dadosLogin) {
 		try {
 			PessoaEntregadora pessoa = dao.findByEmail(dadosLogin.getEmail());
 			
@@ -30,7 +30,8 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 					throw new DadosInvalidosException("E-mail e/ou senha incorreto(s)");
 				}
 				
-				return new Token(TokenUtil.createToken(dadosLogin, pessoa.getId()));
+				return new TokenENomeDTO(TokenUtil.createToken(dadosLogin, pessoa.getId()), pessoa.getNome());
+				
 			}
 
 			return null;
