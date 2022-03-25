@@ -1,8 +1,11 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,7 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosExce
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.modelview.TrackingsEnvioMV;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPedidoService;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.ITrackHistoryService;
@@ -40,28 +44,52 @@ public class TrackingController {
 		try {
 
 			Pedido pedido = servicePedido.findById(id);
-			
-			if(pedido == null || pedido.getStatusPedido()!= Status.EM_ROTA) {
+
+			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
 				throw new DadosInvalidosException("Pedido Indisponivel, pois nao esta em rota");
 			}
 
 			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
-			
+
 			// Procurar o ultimo track history no banco e verificar se eh a mesma pessoa
 			// entregadora
 			// Se nao for a mesma, mandar um erro, se for, continua
-			
 
 			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
-			
+
 			serviceTrack.cadastrarTracking(track);
-			
-			 return ResponseEntity.status(201).body(new DadosGeoMaisInstDTO(dadosGeo));
-			
+
+			return ResponseEntity.status(201).body(new DadosGeoMaisInstDTO(dadosGeo));
+
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
 		}
 
 	}
+
+	@GetMapping("/pedidos/{id}/trackings")
+	public ResponseEntity<?> recuperarTodosOsTrackings(@PathVariable Integer id) {
+		try {
+
+			Pedido pedido = servicePedido.findById(id);
+
+			if (pedido == null) {
+				throw new DadosInvalidosException("Pedido Indisponivel");
+			}
+			if(pedido.getStatusPedido()==Status.EM_ABERTO) {
+				return ResponseEntity.notFound().build();
+			}
+
+			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
+
+
+			return ResponseEntity.status(201).body(new TrackingsEnvioMV(lista));
+
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
+		}
+
+	}
+
 }
