@@ -14,5 +14,5 @@ import java.util.List;
 public interface PedidoDAO extends CrudRepository<Pedido, Integer> {
 
     @Query(value="select * from pedidos where status = 'EM_ABERTO'", nativeQuery = true)
-    public List<Pedido> recuperarPedidosPorStatus();
+    public List<Pedido> recuperarPedidosComStatusEmAberto();
 }
