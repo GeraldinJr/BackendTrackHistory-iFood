@@ -55,7 +55,7 @@ public class PedidosController {
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
 
 			serviceTrack.cadastrarTracking(track);
-			servicePedido.colocarEmRota(id);
+			servicePedido.colocarEmRota(pedido);
 			
 			return ResponseEntity.ok().build();
 

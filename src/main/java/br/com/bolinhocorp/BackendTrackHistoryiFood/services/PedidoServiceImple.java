@@ -25,10 +25,9 @@ public class PedidoServiceImple implements IPedidoService{
 	}
 
 	@Override
-	public void colocarEmRota(int id) {
-		Pedido p = dao.findById(id).orElse(null);
-		p.setStatusPedido(Status.EM_ROTA);
-		dao.save(p);
+	public void colocarEmRota(Pedido pedido) {
+		pedido.setStatusPedido(Status.EM_ROTA);
+		dao.save(pedido);
 
 	}
 
