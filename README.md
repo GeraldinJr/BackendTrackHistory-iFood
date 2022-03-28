@@ -22,7 +22,8 @@ Este endpoint faz a autenticação da pessoa entregadora já cadastrada na base 
 
 ```json
 {
-    "token": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJHZXJhbGRvIiwiaXNzIjoiUHJvZklzaWRyb0lmb29kIiwiZXhwIjoxNjQ3NDY2NTMxfQ.yFfygoULOM3vkYU0ZlwhKeNenTPU-wPHyQPZepE8wao"
+    "token": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJHZXJhbGRvIiwiaXNzIjoiUHJvZklzaWRyb0lmb29kIiwiZXhwIjoxNjQ3NDY2NTMxfQ.yFfygoULOM3vkYU0ZlwhKeNenTPU-wPHyQPZepE8wao",
+    "nome": "Pessoa"
 }
 ```
 
@@ -89,7 +90,23 @@ Validações:
 
 #### - GET: /pedidos?numeroPagina=1&tamanhoPagina=10
 
-**PESQUISAR SOBRE DATA PAGEABLE (SPRING)**
+Este endpoint deve fornecer os dados com uma paginação, onde a página e o tamanho da mesma deve ser informado na URL como mostra o exemplo. Caso não sejam informados, o padrão é retornar a primeira página com o seu tamanho limitado a 10 elementos.
+
+##### Resposta:
+
+###### Em caso de sucesso, a seguinte resposta será obtida (código `200`):
+
+```json
+{
+    "paginaAtual": 1,
+    "tamanhoPagina": 10,
+    "totalPaginas": 5,
+    "totalPedidos": 46,
+    "pedidos": []
+}
+```
+
+#### - GET: /pedidos/em-aberto?numeroPagina=1&tamanhoPagina=10
 
 Este endpoint deve fornecer os dados com uma paginação, onde a página e o tamanho da mesma deve ser informado na URL como mostra o exemplo. Caso não sejam informados, o padrão é retornar a primeira página com o seu tamanho limitado a 10 elementos.
 
