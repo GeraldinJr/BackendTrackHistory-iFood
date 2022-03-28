@@ -1,5 +1,6 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +35,10 @@ public class LoginController {
 		try {
 			if (dadosLogin.getEmail() == null || dadosLogin.getSenha() == null) {
 				throw new DadosInvalidosException("Favor informar e-mail e senha");
+			}
+
+			if(!MethodsUtil.emailIsValid(dadosLogin.getEmail())) {
+				throw new DadosInvalidosException("Infome um e-mail válido");
 			}
 
 			TokenENomeDTO token = service.gerarTokenUsuarioLogado(dadosLogin);

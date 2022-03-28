@@ -1,5 +1,6 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,9 @@ public class PessoaEntregadoraController {
 	public ResponseEntity<?> cadastro(@RequestBody PessoaCadastroDTO pessoa) {
 
 		try {
-
+			if(!MethodsUtil.emailIsValid(pessoa.getEmail())) {
+				throw new DadosInvalidosException("Infome um e-mail válido");
+			}
 			PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
 
 			if (pessoaJaExiste != null) {
