@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
+import org.springframework.data.repository.query.Param;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
 
 public interface PedidoDAO extends CrudRepository<Pedido, Integer> {
 
-    @Query(value="select * from pedidos where status = ?1", nativeQuery = true)
-    public List<Pedido> recuperarPedidosPorStatus(String status);
+    @Query(value="select * from pedidos where status = :#{#status.name()}", nativeQuery = true)
+    public List<Pedido> recuperarPedidosPorStatus(@Param("status") Status status);
 }
