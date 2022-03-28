@@ -187,7 +187,15 @@ Este endpoint retorna o histórico de geolocalização do pedido no formato indi
             { "latitude": -12.8479257,
               "longitude": -38.4623286,
               "instante": 1648123652533},
-            {},{}]
+            {},{}],
+    "status_pedido": "EM_ROTA"
+}
+```
+###### Em caso de pedido em aberto, a seguinte resposta será obtida (código `404`):
+
+```json
+{
+    "message": "Pedido em Aberto"
 }
 ```
 

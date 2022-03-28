@@ -80,13 +80,13 @@ public class TrackingController {
 				throw new DadosInvalidosException("Pedido Indisponivel");
 			}
 			if(pedido.getStatusPedido()==Status.EM_ABERTO) {
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.status(404).body(new Message("Pedido em Aberto"));
 			}
 
 			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
 
 
-			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista));
+			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista, pedido.getStatusPedido()));
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
