@@ -21,7 +21,7 @@ public class PedidosPaginados {
         super();
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;
-        this.totalPaginas = (int) Math.ceil(lista.size()*1.0/tamanhoPagina);
+        this.totalPaginas = Math.max(1, (int) Math.ceil(lista.size()*1.0/tamanhoPagina));
         this.totalPedidos = lista.size();
 
         int inicio = (paginaAtual-1)*tamanhoPagina;

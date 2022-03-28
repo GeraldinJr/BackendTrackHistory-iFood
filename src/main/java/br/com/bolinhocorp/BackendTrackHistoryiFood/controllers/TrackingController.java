@@ -46,7 +46,7 @@ public class TrackingController {
 			Pedido pedido = servicePedido.findById(id);
 			TrackHistory ultimoTrack = serviceTrack.recuperarUltimoPeloPedidoId(id);
 
-			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
+			if (pedido == null || !pedido.getStatusPedido().equals(Status.EM_ROTA)) {
 				throw new DadosInvalidosException("Pedido Indisponivel, pois nao esta em rota");
 			}
 
