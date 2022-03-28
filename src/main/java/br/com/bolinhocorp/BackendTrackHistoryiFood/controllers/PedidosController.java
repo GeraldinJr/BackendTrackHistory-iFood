@@ -52,7 +52,7 @@ public class PedidosController {
 	public ResponseEntity<?> recuperarPedidosEmAberto(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 
 		try {
-			List<Pedido> lista = (List<Pedido>) dao.recuperarPedidosPorStatus(Status.EM_ABERTO);
+			List<Pedido> lista = (List<Pedido>) dao.recuperarPedidosPorStatus();
 			PedidosPaginados p = new PedidosPaginados(lista, numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10));
 			return ResponseEntity.ok().body(p);
 		}catch (Exception e) {
