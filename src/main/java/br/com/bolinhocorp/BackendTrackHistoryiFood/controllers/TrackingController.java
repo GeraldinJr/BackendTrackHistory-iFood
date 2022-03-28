@@ -86,7 +86,7 @@ public class TrackingController {
 			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
 
 
-			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista));
+			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista, pedido.getStatusPedido()));
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
