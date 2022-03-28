@@ -1,7 +1,9 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.PedidosPaginados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +38,26 @@ public class PedidosController {
 	private ITrackHistoryService serviceTrack;
 	
 	@GetMapping("/pedidos")
-	public List<Pedido> recuperarTodos(){
-		return (List<Pedido>)dao.findAll();
+	public ResponseEntity<?> recuperarTodos(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina){
+		try {
+			List<Pedido> lista = (List<Pedido>) dao.findAll();
+			PedidosPaginados p = new PedidosPaginados(lista, numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10));
+			return ResponseEntity.ok().body(p);
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
+		}
+	}
+
+	@GetMapping("/pedidos/em-aberto")
+	public ResponseEntity<?> recuperarPedidosEmAberto(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
+
+		try {
+			List<Pedido> lista = (List<Pedido>) dao.recuperarPedidosPorStatus("EM_ABERTO");
+			PedidosPaginados p = new PedidosPaginados(lista, numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10));
+			return ResponseEntity.ok().body(p);
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
+		}
 	}
 
 	@PostMapping("/pedidos/{id}/atribuir-pedido")
@@ -46,7 +66,7 @@ public class PedidosController {
 
 			Pedido pedido = servicePedido.findById(id);
 
-			if (pedido == null || pedido.getStatusPedido() != Status.EM_ABERTO) {
+			if (pedido == null || !pedido.getStatusPedido().equals(Status.EM_ABERTO)) {
 				throw new DadosInvalidosException("Pedido Indisponivel");
 			}
 
@@ -71,7 +91,7 @@ public class PedidosController {
 			Pedido pedido = servicePedido.findById(id);
 			TrackHistory track = serviceTrack.recuperarUltimoPeloPedidoId(id);
 
-			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
+			if (pedido == null || !pedido.getStatusPedido().equals(Status.EM_ROTA)) {
 				throw new DadosInvalidosException("Não é possível concluir o pedido");
 			}
 
@@ -101,7 +121,7 @@ public class PedidosController {
 			Pedido pedido = servicePedido.findById(id);
 			TrackHistory track = serviceTrack.recuperarUltimoPeloPedidoId(id);
 
-			if (pedido == null || pedido.getStatusPedido() != Status.EM_ROTA) {
+			if (pedido == null || !pedido.getStatusPedido().equals(Status.EM_ROTA)) {
 				throw new DadosInvalidosException("Não é possível cancelar o pedido");
 			}
 
