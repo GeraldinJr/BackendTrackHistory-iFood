@@ -1,25 +1,26 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.util;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoMaisInstDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
-import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
-public class PedidosPaginados {
+public class TrackingsPaginadas {
     Integer paginaAtual;
     Integer tamanhoPagina;
     Integer totalPaginas;
     Integer totalPedidos;
-    List<Pedido> pedidos;
+    Status status;
+    List<DadosGeoMaisInstDTO> trackings;
 
-    public PedidosPaginados () {
+    public TrackingsPaginadas() {
         super();
     }
 
-    public PedidosPaginados (List<Pedido> lista, Integer paginaAtual, Integer tamanhoPagina) {
+    public TrackingsPaginadas(List<DadosGeoMaisInstDTO> lista, Status status, Integer paginaAtual, Integer tamanhoPagina) {
         super();
         if( paginaAtual <= 0 || tamanhoPagina <=0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+        this.status = status;
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;
         this.totalPaginas = Math.max(1, (int) Math.ceil(lista.size()*1.0/tamanhoPagina));
@@ -28,8 +29,11 @@ public class PedidosPaginados {
         int inicio = (paginaAtual-1)*tamanhoPagina;
         if (inicio > lista.size()) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
         int fim = Math.min(inicio + tamanhoPagina, lista.size());
-        this.pedidos = lista.subList(inicio, fim);
+
+        this.trackings = lista.subList(inicio, fim);
+
     }
+
 
     public Integer getPaginaAtual() {
         return paginaAtual;
@@ -63,11 +67,19 @@ public class PedidosPaginados {
         this.totalPedidos = totalPedidos;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<DadosGeoMaisInstDTO> getTrackings() {
+        return trackings;
+    }
+
+    public void setTrackings(List<DadosGeoMaisInstDTO> trackings) {
+        this.trackings = trackings;
     }
 }
