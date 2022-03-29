@@ -1,15 +1,12 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.TrackingsPaginadas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoMaisInstDTO;
@@ -71,7 +68,7 @@ public class TrackingController {
 	}
 
 	@GetMapping("/pedidos/{id}/trackings")
-	public ResponseEntity<?> recuperarTodosOsTrackings(@PathVariable Integer id) {
+	public ResponseEntity<?> recuperarTodosOsTrackings(@PathVariable Integer id, @RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 		try {
 
 			Pedido pedido = servicePedido.findById(id);
@@ -86,7 +83,7 @@ public class TrackingController {
 			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
 
 
-			return ResponseEntity.ok().body(new TrackingsEnvioMV(lista, pedido.getStatusPedido()));
+			return ResponseEntity.ok().body(new TrackingsPaginadas(lista, pedido.getStatusPedido(), numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10)));
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
