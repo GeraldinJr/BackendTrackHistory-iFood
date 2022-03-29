@@ -18,6 +18,8 @@ public class TrackingsPaginadas {
     }
 
     public TrackingsPaginadas(List<DadosGeoMaisInstDTO> lista, Status status, Integer paginaAtual, Integer tamanhoPagina) {
+        super();
+        if( paginaAtual <= 0 || tamanhoPagina <=0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
         this.status = status;
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;

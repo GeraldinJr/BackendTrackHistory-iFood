@@ -19,6 +19,7 @@ public class PedidosPaginados {
 
     public PedidosPaginados (List<Pedido> lista, Integer paginaAtual, Integer tamanhoPagina) {
         super();
+        if( paginaAtual <= 0 || tamanhoPagina <=0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;
         this.totalPaginas = Math.max(1, (int) Math.ceil(lista.size()*1.0/tamanhoPagina));
