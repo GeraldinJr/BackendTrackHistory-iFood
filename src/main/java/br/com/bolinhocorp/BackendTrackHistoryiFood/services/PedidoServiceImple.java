@@ -39,7 +39,7 @@ public class PedidoServiceImple implements IPedidoService{
 
 	@Override
 	public void cancelar(Pedido pedido) {
-		pedido.setStatusPedido(Status.CANCELADO);
+		pedido.setStatusPedido(Status.EM_ABERTO);
 		dao.save(pedido);
 	}
 }
