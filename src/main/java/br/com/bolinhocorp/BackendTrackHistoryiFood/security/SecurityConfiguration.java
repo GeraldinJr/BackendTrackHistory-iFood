@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration 			// indico que é uma classe de configuração (e não um arquivo tipo o properties)
+@Configuration
 @EnableWebSecurity  
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
@@ -16,25 +16,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	public void configure(HttpSecurity httpSec) throws Exception{
 		httpSec.csrf().disable()
-					  .exceptionHandling().authenticationEntryPoint(entryPoint)   // estou colocando um tratador de exceções
+					  .exceptionHandling().authenticationEntryPoint(entryPoint)
 					  .and()
 					  .authorizeRequests() 
-					  // quais são as requisições que eu quero permitir
 					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/login").permitAll()
 					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/cadastro").permitAll()
-					  .antMatchers(HttpMethod.GET, "/pedidos").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui/index.html").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui.css").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-standalone-preset.js").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-bundle.js").permitAll()
-					  .antMatchers(HttpMethod.GET, "/api-docs/swagger-config").permitAll()
-					  .antMatchers(HttpMethod.GET, "/api-docs").permitAll()
-					  .antMatchers(HttpMethod.GET, "/swagger-ui/favicon-32x32.png").permitAll()
-					  
+					  .antMatchers("/swagger-ui*/**", "/techgeeknext-openapi/**", "/api-docs*/**").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui/index.html").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui.css").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-standalone-preset.js").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-bundle.js").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/api-docs/swagger-config").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/api-docs").permitAll()
+//					  .antMatchers(HttpMethod.GET, "/swagger-ui/favicon-32x32.png").permitAll()
 					  .anyRequest().authenticated().and().cors();
-		
-		// agora eu preciso indicar qual o filtro que eu quero que a requisição passe e como esse filtro trata a requisição
 		httpSec.addFilterBefore(new Filter(), UsernamePasswordAuthenticationFilter.class);
 		
 	}

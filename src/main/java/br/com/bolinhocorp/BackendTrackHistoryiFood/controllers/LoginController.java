@@ -23,12 +23,6 @@ public class LoginController {
 	@Autowired
 	private IPessoaEntregadora service;
 
-	@GetMapping("/")
-	public ResponseEntity<?> home() {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-		return ResponseEntity.ok("Bem vindo");
-	}
-
 	@PostMapping("/pessoa-entregadora/login")
 	public ResponseEntity<?> login(@RequestBody PessoaLoginDTO dadosLogin) {
 
