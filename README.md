@@ -126,6 +126,8 @@ Este endpoint deve fornecer os dados com uma paginação, onde a página e o tam
 
 #### - POST: /pedidos/id/atribuir-pedido
 
+Este endpoint atribui um pedido (necessariamente com o status 'EM_ABERTO') à pessoa entregadora, quando esta inicia uma entrega, consequentemente alterando o status do pedido para 'EM_ROTA'.
+
 ##### Requisição:
 
 
@@ -190,8 +192,6 @@ Este endpoint faz o registro da geolocalização atual do pedido.
 
 #### - GET: /pedidos/id/trackings
 
-**OBS:** Verificar possibilidade de paginação. Caso seja facilmente replicável, bastará somente reutilizar a lógica implementada em pedidos.
-
 Este endpoint retorna o histórico de geolocalização do pedido no formato indicado abaixo:
 
 ###### Em caso de sucesso, a seguinte resposta será obtida (código `200`):
@@ -218,7 +218,7 @@ Este endpoint retorna o histórico de geolocalização do pedido no formato indi
 
 #### - GET: /pedidos/id/geolocalizacao
 
-Este endpoint retorna a ultima geolocalização registrada do pedido no formato indicado abaixo:
+Este endpoint retorna a última geolocalização registrada do pedido no formato indicado abaixo:
 
 ###### Em caso de sucesso, a seguinte resposta será obtida (código `200`):
 
@@ -243,7 +243,7 @@ Este endpoint retorna a ultima geolocalização registrada do pedido no formato 
 
 #### - PATCH: /pedidos/id/concluir
 
-Este endpoint deve indicar que o pedido foi concluído.
+Este endpoint deve indicar que o pedido foi concluído. Para isto, o status do pedido deve estar 'EM_ROTA', o qual consequentemente é alterado para 'CONCLUÍDO'.
 
 
 
@@ -281,6 +281,8 @@ Validações:
 
 #### - PATCH: /pedidos/id/cancelar
 
+Este endpoint deve alterar o status de um pedido de 'EM_ROTA' para 'CANCELADO', isto é, somente pedidos em rota podem ser cancelados.
+
 ##### Requisição:
 
 ```json
@@ -311,3 +313,22 @@ Validações:
 
 * O pedido para ser cancelado precisa ter o status **EM_ROTA**
 * A pessoa entregadora logada precisa ser a mesma atríbuída no último registro de geolocalização.
+
+#### - GET: /pedidos/em-aberto
+
+Este endpoint retorna apenas os pedidos em aberto.
+
+###### Em caso de sucesso, a seguinte resposta será obtida (código `200`):
+
+
+```json
+{
+  "paginaAtual": 1,
+  "tamanhoPagina": 10,
+  "totalPaginas": 2,
+  "totalPedidos": 11,
+  "pedidos": [
+    // ...
+  ]
+}
+    
