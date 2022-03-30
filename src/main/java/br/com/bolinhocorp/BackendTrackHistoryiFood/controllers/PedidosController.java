@@ -20,6 +20,8 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.services.ITrackHistoryService
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Message;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @CrossOrigin("*")
@@ -38,6 +40,7 @@ public class PedidosController {
 	private ITrackHistoryService serviceTrack;
 	
 	@GetMapping("/pedidos")
+	@Operation(summary = "Carregar todos os pedidos", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarTodos(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina){
 		try {
 			List<Pedido> lista = (List<Pedido>) dao.findAll();
@@ -49,6 +52,7 @@ public class PedidosController {
 	}
 
 	@GetMapping("/pedidos/em-aberto")
+	@Operation(summary = "Carregar pedidos em aberto", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarPedidosEmAberto(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 
 		try {
@@ -61,6 +65,7 @@ public class PedidosController {
 	}
 
 	@PostMapping("/pedidos/{id}/atribuir-pedido")
+	@Operation(summary = "Iniciar tracking", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> atribuicao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 		try {
 
@@ -85,6 +90,7 @@ public class PedidosController {
 	}
 
 	@PatchMapping("/pedidos/{id}/concluir")
+	@Operation(summary = "Concluir pedido", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> conclusao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
@@ -115,6 +121,7 @@ public class PedidosController {
 	}
 
 	@PatchMapping("/pedidos/{id}/cancelar")
+	@Operation(summary = "Cancelar pedido", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> cancelamento(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
