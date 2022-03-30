@@ -9,7 +9,7 @@ public class TrackingsPaginadas {
     Integer paginaAtual;
     Integer tamanhoPagina;
     Integer totalPaginas;
-    Integer totalPedidos;
+    Integer totalTrackings;
     Status status;
     List<DadosGeoMaisInstDTO> trackings;
 
@@ -17,21 +17,15 @@ public class TrackingsPaginadas {
         super();
     }
 
-    public TrackingsPaginadas(List<DadosGeoMaisInstDTO> lista, Status status, Integer paginaAtual, Integer tamanhoPagina) {
+    public TrackingsPaginadas(List<DadosGeoMaisInstDTO> lista, Integer total, Status status, Integer paginaAtual, Integer tamanhoPagina) {
         super();
         if( paginaAtual <= 0 || tamanhoPagina <=0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
         this.status = status;
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;
-        this.totalPaginas = Math.max(1, (int) Math.ceil(lista.size()*1.0/tamanhoPagina));
-        this.totalPedidos = lista.size();
-
-        int inicio = (paginaAtual-1)*tamanhoPagina;
-        if (inicio > lista.size()) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
-        int fim = Math.min(inicio + tamanhoPagina, lista.size());
-
-        this.trackings = lista.subList(inicio, fim);
-
+        this.totalPaginas = Math.max(1, (int) Math.ceil(total*1.0/tamanhoPagina));
+        this.totalTrackings = total;
+        this.trackings = lista;
     }
 
 
@@ -59,12 +53,12 @@ public class TrackingsPaginadas {
         this.totalPaginas = totalPaginas;
     }
 
-    public Integer getTotalPedidos() {
-        return totalPedidos;
+    public Integer getTotalTrackings() {
+        return totalTrackings;
     }
 
-    public void setTotalPedidos(Integer totalPedidos) {
-        this.totalPedidos = totalPedidos;
+    public void setTotalTrackings(Integer totalTrackings) {
+        this.totalTrackings = totalTrackings;
     }
 
     public Status getStatus() {

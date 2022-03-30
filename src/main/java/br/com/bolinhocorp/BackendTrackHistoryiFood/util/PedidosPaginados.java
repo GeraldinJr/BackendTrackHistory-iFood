@@ -17,18 +17,13 @@ public class PedidosPaginados {
         super();
     }
 
-    public PedidosPaginados (List<Pedido> lista, Integer paginaAtual, Integer tamanhoPagina) {
+    public PedidosPaginados (List<Pedido> lista, Integer total, Integer paginaAtual, Integer tamanhoPagina) {
         super();
-        if( paginaAtual <= 0 || tamanhoPagina <=0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
         this.paginaAtual = paginaAtual;
         this.tamanhoPagina = tamanhoPagina;
-        this.totalPaginas = Math.max(1, (int) Math.ceil(lista.size()*1.0/tamanhoPagina));
-        this.totalPedidos = lista.size();
-
-        int inicio = (paginaAtual-1)*tamanhoPagina;
-        if (inicio > lista.size()) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
-        int fim = Math.min(inicio + tamanhoPagina, lista.size());
-        this.pedidos = lista.subList(inicio, fim);
+        this.totalPaginas = Math.max(1, (int) Math.ceil(total*1.0/tamanhoPagina));
+        this.totalPedidos = total;
+        this.pedidos = lista;
     }
 
     public Integer getPaginaAtual() {
