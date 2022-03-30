@@ -16,6 +16,8 @@
         "tags": [
           "login-controller"
         ],
+        "summary": "Logar pessoa entregadora",
+        "description": "Este endpoint faz a autenticação da pessoa entregadora já cadastrada na base de dados, e retorna um token de autenticação para acesso aos endpoints protegidos.",
         "operationId": "login",
         "requestBody": {
           "content": {
@@ -46,6 +48,8 @@
         "tags": [
           "pessoa-entregadora-controller"
         ],
+        "summary": "Cadastrar pessoa entregadora",
+        "description": "Este endpoint cadastra uma nova pessoa entregadora na base de dados.",
         "operationId": "cadastro",
         "requestBody": {
           "content": {
@@ -77,6 +81,7 @@
           "tracking-controller"
         ],
         "summary": "Carregar última geolocalização do pedido",
+        "description": "Este endpoint retorna a última geolocalização registrada do pedido.",
         "operationId": "recuperarUltimaGeolocalizacao",
         "parameters": [
           {
@@ -112,6 +117,7 @@
           "tracking-controller"
         ],
         "summary": "Enviar geolocalização",
+        "description": "Este endpoint faz o registro da geolocalização atual do pedido.",
         "operationId": "adicionarTracking",
         "parameters": [
           {
@@ -159,6 +165,7 @@
           "pedidos-controller"
         ],
         "summary": "Iniciar tracking",
+        "description": "Este endpoint atribui um pedido (necessariamente com o status 'EM_ABERTO') à pessoa entregadora, quando esta inicia uma entrega, consequentemente alterando o status do pedido para 'EM_ROTA'.",
         "operationId": "atribuicao",
         "parameters": [
           {
@@ -206,6 +213,7 @@
           "pedidos-controller"
         ],
         "summary": "Concluir pedido",
+        "description": "Este endpoint deve indicar que o pedido foi concluído. Para isto, o status do pedido deve estar 'EM_ROTA', o qual consequentemente é alterado para 'CONCLUÍDO'.",
         "operationId": "conclusao",
         "parameters": [
           {
@@ -253,6 +261,7 @@
           "pedidos-controller"
         ],
         "summary": "Cancelar pedido",
+        "description": "Este endpoint deve alterar o status de um pedido de 'EM_ROTA' para 'CANCELADO', isto é, somente pedidos em rota podem ser cancelados.",
         "operationId": "cancelamento",
         "parameters": [
           {
@@ -300,6 +309,7 @@
           "pessoa-entregadora-controller"
         ],
         "summary": "Verificar se já possui pedido",
+        "description": "Este endpoint serve para o caso de a pessoa entregadora fechar a aplicação aleatoriamente sem fazer logout, e ao retornar à aplicação ela ser redirecionada para a página da entrega em andamento, ao invés de lhe ser permitido selecionar outro pedido, antes de concluir o anterior.",
         "operationId": "possuiPedido",
         "responses": {
           "200": {
@@ -326,6 +336,7 @@
           "pedidos-controller"
         ],
         "summary": "Carregar todos os pedidos",
+        "description": "Este endpoint retorna indistintamente todos os pedidos registrados, seja ele em aberto, em rota, concluído ou cancelado.",
         "operationId": "recuperarTodos",
         "parameters": [
           {
@@ -372,6 +383,7 @@
           "tracking-controller"
         ],
         "summary": "Carregar todas as geolocalizações do pedido",
+        "description": "Este endpoint retorna o histórico de todas as geolocalizações do pedido.",
         "operationId": "recuperarTodosOsTrackings",
         "parameters": [
           {
@@ -427,6 +439,7 @@
           "pedidos-controller"
         ],
         "summary": "Carregar pedidos em aberto",
+        "description": "Este endpoint retorna apenas os pedidos em aberto.",
         "operationId": "recuperarPedidosEmAberto",
         "parameters": [
           {
