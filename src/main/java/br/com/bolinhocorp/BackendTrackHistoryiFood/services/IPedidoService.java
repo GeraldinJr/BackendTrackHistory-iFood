@@ -8,5 +8,6 @@ public interface IPedidoService {
 	public void colocarEmRota(Pedido pedido);
 	public void concluir(Pedido pedido);
 	public void cancelar(Pedido pedido);
+	public void atualizarUltimaAlteracao(Pedido pedido);
 
 }
