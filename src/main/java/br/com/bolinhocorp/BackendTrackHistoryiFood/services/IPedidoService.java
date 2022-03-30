@@ -9,5 +9,5 @@ public interface IPedidoService {
 	public void concluir(Pedido pedido);
 	public void cancelar(Pedido pedido);
 	public void atualizarUltimaAlteracao(Pedido pedido);
-
+	public void cancelarPedidosEsquecidos();
 }

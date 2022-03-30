@@ -24,4 +24,7 @@ public interface PedidoDAO extends CrudRepository<Pedido, Integer> {
 
     @Query(value="select * from pedidos offset ?1 limit ?2", nativeQuery = true)
     public List<Pedido> paginaPedido(Integer offset, Integer limit);
+
+    @Query(value="select * from pedidos where status = 'EM_ROTA' and ultima_alteracao < now() - interval '30 minute'", nativeQuery = true)
+    public List<Pedido> pedidosEsquecidos();
 }
