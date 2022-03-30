@@ -40,7 +40,7 @@ public class PedidosController {
 	private ITrackHistoryService serviceTrack;
 	
 	@GetMapping("/pedidos")
-	@Operation(summary = "Carregar todos os pedidos", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Carregar todos os pedidos", description = "Este endpoint retorna indistintamente todos os pedidos registrados, seja ele em aberto, em rota, concluído ou cancelado.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarTodos(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina){
 		try {
 			if(numeroPagina.isPresent()) {
@@ -65,7 +65,7 @@ public class PedidosController {
 	}
 
 	@GetMapping("/pedidos/em-aberto")
-	@Operation(summary = "Carregar pedidos em aberto", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Carregar pedidos em aberto", description = "Este endpoint retorna apenas os pedidos em aberto.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarPedidosEmAberto(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 		try {
 			if(numeroPagina.isPresent()) {
@@ -90,7 +90,7 @@ public class PedidosController {
 	}
 
 	@PostMapping("/pedidos/{id}/atribuir-pedido")
-	@Operation(summary = "Iniciar tracking", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Iniciar tracking", description = "Este endpoint atribui um pedido (necessariamente com o status 'EM_ABERTO') à pessoa entregadora, quando esta inicia uma entrega, consequentemente alterando o status do pedido para 'EM_ROTA'.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> atribuicao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 		try {
 
@@ -115,7 +115,7 @@ public class PedidosController {
 	}
 
 	@PatchMapping("/pedidos/{id}/concluir")
-	@Operation(summary = "Concluir pedido", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Concluir pedido", description = "Este endpoint deve indicar que o pedido foi concluído. Para isto, o status do pedido deve estar 'EM_ROTA', o qual consequentemente é alterado para 'CONCLUÍDO'.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> conclusao(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
@@ -146,7 +146,7 @@ public class PedidosController {
 	}
 
 	@PatchMapping("/pedidos/{id}/cancelar")
-	@Operation(summary = "Cancelar pedido", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Cancelar pedido", description = "Este endpoint deve alterar o status de um pedido de 'EM_ROTA' para 'CANCELADO', isto é, somente pedidos em rota podem ser cancelados.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> cancelamento(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
