@@ -3,6 +3,7 @@ package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.TrackHistoryDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.TrackingsPaginadas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,9 @@ public class TrackingController {
 
 	@Autowired
 	private IPedidoService servicePedido;
+
+	@Autowired
+	private TrackHistoryDAO dao;
 
 	@PostMapping("/pedidos/{id}/geolocalizacao")
 	public ResponseEntity<?> adicionarTracking(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
@@ -71,6 +75,14 @@ public class TrackingController {
 	public ResponseEntity<?> recuperarTodosOsTrackings(@PathVariable Integer id, @RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 		try {
 
+			if(numeroPagina.isPresent()) {
+				if( numeroPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
+			if(tamanhoPagina.isPresent()) {
+				if( tamanhoPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
 			Pedido pedido = servicePedido.findById(id);
 
 			if (pedido == null) {
@@ -80,10 +92,15 @@ public class TrackingController {
 				return ResponseEntity.status(404).body(new Message("Pedido em Aberto"));
 			}
 
-			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id);
+			Integer total = dao.total(id);
+			Integer numPag = numeroPagina.orElseGet(() -> 1);
+			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			Integer offset = (numPag -1) * tamPag;
+
+			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id, offset, tamPag);
 
 
-			return ResponseEntity.ok().body(new TrackingsPaginadas(lista, pedido.getStatusPedido(), numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10)));
+			return ResponseEntity.ok().body(new TrackingsPaginadas(lista, total, pedido.getStatusPedido(), numPag, tamPag));
 
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));

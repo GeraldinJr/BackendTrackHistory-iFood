@@ -6,8 +6,8 @@ public class PossuiPedidoDTO {
     Boolean possuiPedido;
     Pedido pedido;
 
-    public PossuiPedidoDTO(Boolean possuiPedidio, Pedido pedido) {
-        this.possuiPedido = possuiPedidio;
+    public PossuiPedidoDTO(Boolean possuiPedido, Pedido pedido) {
+        this.possuiPedido = possuiPedido;
         this.pedido = pedido;
     }
 
@@ -16,12 +16,12 @@ public class PossuiPedidoDTO {
         this.pedido = pedido;
     }
 
-    public Boolean getPossuiPedidio() {
+    public Boolean getPossuiPedido() {
         return possuiPedido;
     }
 
-    public void setPossuiPedidio(Boolean possuiPedidio) {
-        this.possuiPedido = possuiPedidio;
+    public void setPossuiPedido(Boolean possuiPedido) {
+        this.possuiPedido = possuiPedido;
     }
 
     public Pedido getPedido() {
