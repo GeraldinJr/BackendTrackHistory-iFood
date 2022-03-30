@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PedidoDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 
+import java.sql.Timestamp;
+
 @Component
 public class PedidoServiceImple implements IPedidoService{
 	
@@ -27,6 +29,7 @@ public class PedidoServiceImple implements IPedidoService{
 	@Override
 	public void colocarEmRota(Pedido pedido) {
 		pedido.setStatusPedido(Status.EM_ROTA);
+		atualizarUltimaAlteracao(pedido);
 		dao.save(pedido);
 
 	}
@@ -34,12 +37,19 @@ public class PedidoServiceImple implements IPedidoService{
 	@Override
 	public void concluir(Pedido pedido) {
 		pedido.setStatusPedido(Status.CONCLUIDO);
+		atualizarUltimaAlteracao(pedido);
 		dao.save(pedido);
 	}
 
 	@Override
 	public void cancelar(Pedido pedido) {
 		pedido.setStatusPedido(Status.EM_ABERTO);
+		atualizarUltimaAlteracao(pedido);
 		dao.save(pedido);
+	}
+
+	@Override
+	public void atualizarUltimaAlteracao(Pedido pedido) {
+		pedido.setUltimaAlteracao(new Timestamp(System.currentTimeMillis()));
 	}
 }

@@ -66,6 +66,7 @@ public class TrackingController {
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
 
 			serviceTrack.cadastrarTracking(track);
+			servicePedido.atualizarUltimaAlteracao(pedido);
 
 			return ResponseEntity.status(201).body(new DadosGeoMaisInstDTO(dadosGeo));
 
