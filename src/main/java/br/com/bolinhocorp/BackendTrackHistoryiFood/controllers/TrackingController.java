@@ -43,7 +43,7 @@ public class TrackingController {
 	private TrackHistoryDAO dao;
 
 	@PostMapping("/pedidos/{id}/geolocalizacao")
-	@Operation(summary = "Enviar geolocalização", description = "Este endpoint retorna a última geolocalização registrada do pedido.", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Enviar geolocalização", description = "Este endpoint recebe a última geolocalização registrada do pedido, e a registra no banco de dados.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> adicionarTracking(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
