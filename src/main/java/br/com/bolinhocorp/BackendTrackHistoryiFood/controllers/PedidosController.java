@@ -43,8 +43,21 @@ public class PedidosController {
 	@Operation(summary = "Carregar todos os pedidos", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarTodos(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina){
 		try {
-			List<Pedido> lista = (List<Pedido>) dao.findAll();
-			PedidosPaginados p = new PedidosPaginados(lista, numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10));
+			if(numeroPagina.isPresent()) {
+				if( numeroPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
+			if(tamanhoPagina.isPresent()) {
+				if( tamanhoPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
+			Integer total = dao.total();
+			Integer numPag = numeroPagina.orElseGet(() -> 1);
+			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			Integer offset = (numPag -1) * tamPag;
+			if (offset > total) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
+
+			PedidosPaginados p = new PedidosPaginados(dao.paginaPedido(offset, tamPag), total, numPag, tamPag);
 			return ResponseEntity.ok().body(p);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));
@@ -54,10 +67,22 @@ public class PedidosController {
 	@GetMapping("/pedidos/em-aberto")
 	@Operation(summary = "Carregar pedidos em aberto", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarPedidosEmAberto(@RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
-
 		try {
-			List<Pedido> lista = (List<Pedido>) dao.recuperarPedidosComStatusEmAberto();
-			PedidosPaginados p = new PedidosPaginados(lista, numeroPagina.orElseGet(() -> 1), tamanhoPagina.orElseGet(() -> 10));
+			if(numeroPagina.isPresent()) {
+				if( numeroPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
+			if(tamanhoPagina.isPresent()) {
+				if( tamanhoPagina.get() <= 0) throw new DadosInvalidosException("Parâmetros de paginação inválidos");
+			}
+
+			Integer total = dao.totalEmAberto();
+			Integer numPag = numeroPagina.orElseGet(() -> 1);
+			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			Integer offset = (numPag -1) * tamPag;
+			if (offset > total) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
+
+			PedidosPaginados p = new PedidosPaginados(dao.paginaPedidoEmAberto(offset, tamPag), total, numPag, tamPag);
 			return ResponseEntity.ok().body(p);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(new Message(e.getMessage()));

@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MethodsUtil {
+
 	
 	public static Integer getIdPessoa() {
 		return Integer.valueOf((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
