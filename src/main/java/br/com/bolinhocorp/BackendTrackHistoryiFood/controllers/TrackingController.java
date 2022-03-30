@@ -43,7 +43,7 @@ public class TrackingController {
 	private TrackHistoryDAO dao;
 
 	@PostMapping("/pedidos/{id}/geolocalizacao")
-	@Operation(summary = "Enviar geolocalização", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Enviar geolocalização", description = "Este endpoint retorna a última geolocalização registrada do pedido.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> adicionarTracking(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
@@ -77,7 +77,7 @@ public class TrackingController {
 	}
 
 	@GetMapping("/pedidos/{id}/trackings")
-	@Operation(summary = "Carregar todas as geolocalizações do pedido", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Carregar todas as geolocalizações do pedido", description = "Este endpoint retorna o histórico de todas as geolocalizações do pedido.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarTodosOsTrackings(@PathVariable Integer id, @RequestParam Optional<Integer> numeroPagina, @RequestParam Optional<Integer> tamanhoPagina) {
 		try {
 
@@ -115,7 +115,7 @@ public class TrackingController {
 	}
 
 	@GetMapping("/pedidos/{id}/geolocalizacao")
-	@Operation(summary = "Carregar última geolocalização do pedido", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Carregar última geolocalização do pedido", description = "Este endpoint retorna a última geolocalização registrada do pedido.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> recuperarUltimaGeolocalizacao(@PathVariable Integer id) {
 		try {
 

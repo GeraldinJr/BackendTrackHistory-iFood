@@ -30,6 +30,7 @@ public class PessoaEntregadoraController {
 	private TrackHistoryDAO trackDAO;
 
 	@PostMapping("/pessoa-entregadora/cadastro")
+	@Operation(summary = "Cadastrar pessoa entregadora", description = "Este endpoint cadastra uma nova pessoa entregadora na base de dados.")
 	public ResponseEntity<?> cadastro(@RequestBody PessoaCadastroDTO pessoa) {
 
 		try {
@@ -57,7 +58,7 @@ public class PessoaEntregadoraController {
 	}
 
 	@GetMapping("/pessoa-entregadora/possui-pedido")
-	@Operation(summary = "Verificar se já possui pedido", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Verificar se já possui pedido", description = "Este endpoint serve para o caso de a pessoa entregadora fechar a aplicação aleatoriamente sem fazer logout, e ao retornar à aplicação ela ser redirecionada para a página da entrega em andamento, ao invés de lhe ser permitido selecionar outro pedido, antes de concluir o anterior.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> possuiPedido() {
 		try {
 			int id = MethodsUtil.getIdPessoa();
