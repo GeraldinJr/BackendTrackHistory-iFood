@@ -5,6 +5,9 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.modelview.PossuiPedidoDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +57,7 @@ public class PessoaEntregadoraController {
 	}
 
 	@GetMapping("/pessoa-entregadora/possui-pedido")
+	@Operation(summary = "Verificar se já possui pedido", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> possuiPedido() {
 		try {
 			int id = MethodsUtil.getIdPessoa();
