@@ -11,7 +11,7 @@ Track History - API
 
 Para ver o repositório do **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)
 
-Para acessar a aplicação diretamente no seu browser, acesse https://trackhistoryifood.tk/
+Para acessar a aplicação diretamente no seu browser ou smartphone, acesse https://trackhistoryifood.tk/
 
 ## 👨🏻‍💻 Desenvolvedores
 
