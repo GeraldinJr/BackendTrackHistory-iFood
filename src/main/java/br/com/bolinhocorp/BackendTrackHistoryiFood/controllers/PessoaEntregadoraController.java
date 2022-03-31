@@ -40,7 +40,7 @@ public class PessoaEntregadoraController {
 			PessoaEntregadora pessoaJaExiste = service.recuperarPorEmail(pessoa.getEmail());
 
 			if (pessoaJaExiste != null) {
-				return ResponseEntity.badRequest().body(new Message("Nao foi possivel cadastrar"));
+				return ResponseEntity.badRequest().body(new Message("Já existe um cadastro com este e-mail"));
 			}
 
 			if (!pessoa.getSenha().equals(pessoa.getConfirmacao_senha())) {
