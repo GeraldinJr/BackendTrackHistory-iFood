@@ -3,13 +3,13 @@
 Track History - API
 </h1>
 
-### URL: [track-history.herokuapp.com](https://)
+### URL: [track-history.herokuapp.com](https://track-history.herokuapp.com/)
 
 ## 💻 Sobre o projeto
 
 - <p style="color: red;">A Bolinho de Java Corp teve como desafio desenvolver uma aplicação para manter todo o histórico de telemetria de um entregador para um determinado pedido.</p>
 
-Para ver o **Front-end**, clique aqui: [Track History iFood](https://github.com/jhsmiranda/desafio-afya-front-end)</br>
+Para ver o **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)</br>
 
 ## 🚀 Tecnologias
 
