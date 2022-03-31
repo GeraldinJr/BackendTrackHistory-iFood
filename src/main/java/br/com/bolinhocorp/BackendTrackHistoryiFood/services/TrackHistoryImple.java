@@ -55,4 +55,9 @@ public class TrackHistoryImple implements ITrackHistoryService {
 		return dao.recuperarUltimoPeloPedidoId(id);
 	}
 
+	@Override
+	public TrackHistory recuperarUltimoPelaPessoaId(Integer id) {
+		return dao.recuperarUltimoPelaPessoaId(id);
+	}
+
 }

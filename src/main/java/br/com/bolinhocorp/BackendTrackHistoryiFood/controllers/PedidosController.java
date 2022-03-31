@@ -1,16 +1,22 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
-import br.com.bolinhocorp.BackendTrackHistoryiFood.util.PedidosPaginados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PedidoDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.NaoAutorizadoException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
@@ -19,6 +25,7 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.services.IPessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.services.ITrackHistoryService;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Message;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.PedidosPaginados;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -101,6 +108,11 @@ public class PedidosController {
 			}
 
 			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
+			
+			if(serviceTrack.recuperarUltimoPelaPessoaId(idPessoaEntregadora).getPedido().getStatusPedido().equals(Status.EM_ROTA)) {
+				throw new NaoAutorizadoException("Pessoa entregadora com pedido em andamento");
+			}
+			
 			PessoaEntregadora pessoa = servicePessoa.findById(idPessoaEntregadora);
 			TrackHistory track = new TrackHistory(dadosGeo, pedido, pessoa);
 
