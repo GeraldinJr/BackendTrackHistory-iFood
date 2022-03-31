@@ -9,7 +9,19 @@ Track History - API
 
 - <p style="color: red;">A Bolinho de Java Corp teve como desafio desenvolver uma aplicação para manter todo o histórico de telemetria de um entregador para um determinado pedido.</p>
 
-Para ver o **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)</br>
+Para ver o **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)
+
+## 👨🏻‍💻 Desenvolvedores
+
+- [Debora Brum](https://github.com/DeboraBrum)
+- [Edvan Jr.](https://github.com/Edvan-Jr)
+- [Geraldo Jr.](https://github.com/GeraldinJr)
+- [Lucas Paixão](https://github.com/lucasfpds)
+- [Magnólia Medeiros](https://github.com/magnoliamedeiros)
+
+## 💡 Mentor
+
+- João Lello
 
 ## 🚀 Tecnologias
 
