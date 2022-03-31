@@ -1,5 +1,5 @@
 <h1 align="center" font-style="bold">
-    <img width="584" alt="imagem header" src="https://user-images.githubusercontent.com/81285428/161086434-d0770f3d-6ff5-4636-801c-3f294d3908b6.png"><br>
+    <img width="584" alt="imagem header" src="./assets/imgHeaderReadme.png"><br>
 Track History - API
 </h1>
 
