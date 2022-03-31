@@ -20,7 +20,7 @@ Tecnologias que utilizamos para desenvolver esta API Rest:
 - [PostgreSQL](https://www.postgresql.org/)
 - [Swagger](https://swagger.io/)
 
-## 💻 Iniciando
+## ▶️ Iniciando
 
 - As instruções a seguir irão te guiar para que você crie uma cópia do projeto na sua máquina local.
 
