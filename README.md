@@ -9,7 +9,9 @@ Track History - API
 
 - <p style="color: red;">A Bolinho de Java Corp teve como desafio desenvolver uma aplicação para manter todo o histórico de telemetria de um entregador para um determinado pedido.</p>
 
-Para ver o **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)
+Para ver o repositório do **Front-end**, clique aqui: [Frontend Track History iFood](https://github.com/GeraldinJr/FrontendTrackHistory-iFood)
+
+Para acessar a aplicação diretamente no seu browser, acesse https://trackhistoryifood.tk/
 
 ## 👨🏻‍💻 Desenvolvedores
 
@@ -21,7 +23,7 @@ Para ver o **Front-end**, clique aqui: [Frontend Track History iFood](https://gi
 
 ## 💡 Mentor
 
-- João Lello
+- João Lello(https://github.com/joaodilello)
 
 ## 🚀 Tecnologias
 
@@ -64,10 +66,6 @@ E rode o projeto na sua IDE.
 Tudo pronto! Agora, para uma visão geral da API, basta acessar http://localhost:8080/swagger-ui.html, onde você encontra a documentação de todos os endpoints disponíveis com índice e descrição, numa interface amigável do Swagger, além de poder utiliza-los com requisições e repostas, interagindo com o seu banco de dados local.
 
 No início do projeto, estávamos desenvolvendo a documentação manualmente aqui no README, até termos a ideia de gerá-la automaticamente com o swagger. Ainda assim, mantivemos a documentação manual aqui também no final do README, como registro da mudança, e como outro exemplo de abordagem.
-
-Para acessar a API diretamente no seu browser, acesse https://herokuapp.com/
-
-
 
 ## ⚙️ Funcionalidades
 
