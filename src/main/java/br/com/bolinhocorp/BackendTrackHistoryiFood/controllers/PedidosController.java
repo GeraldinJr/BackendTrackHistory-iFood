@@ -159,7 +159,7 @@ public class PedidosController {
 	}
 
 	@PatchMapping("/pedidos/{id}/cancelar")
-	@Operation(summary = "Cancelar pedido", description = "Este endpoint deve alterar o status de um pedido de 'EM_ROTA' para 'CANCELADO', isto é, somente pedidos em rota podem ser cancelados.", security = @SecurityRequirement(name = "bearerAuth"))
+	@Operation(summary = "Cancelar pedido", description = "Este endpoint deve alterar o status de um pedido de 'EM_ROTA' para 'EM_ABERTO', isto é, somente pedidos em rota podem ser cancelados, e então eles retornam para a lista de em aberto, disponíveis para nova tentativa de entrega. Observação: há a funcionalidade de cancelamento definitivo do pedido, através de uma funcionalidade de rotina automática, quando ele passa 30 minutos (valor arbitrário) ocioso, sem atualização da geolocalização, daí o seu status passa para 'CANCELADO', e ele some da lista disponível para entrega.", security = @SecurityRequirement(name = "bearerAuth"))
 	public ResponseEntity<?> cancelamento(@PathVariable Integer id, @RequestBody DadosGeoDTO dadosGeo) {
 
 		try {
