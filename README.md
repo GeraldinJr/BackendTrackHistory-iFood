@@ -328,7 +328,13 @@ Este endpoint retorna apenas os pedidos em aberto.
   "totalPaginas": 2,
   "totalPedidos": 11,
   "pedidos": [
-    // ...
+    
   ]
 }
+```
     
+#### - GET: /pessoa-entregadora/possui_pedido
+
+Este endpoint serve para o caso de a pessoa entregadora fechar a aplicação aleatoriamente sem fazer logout, e ao retornar à aplicação ela ser redirecionada para a página da entrega em andamento, ao invés de lhe ser permitido selecionar outro pedido, antes de concluir o anterior.
+
+###### Em caso de já haver pedido em aberto atribuído à pessoa entregadora, ela é redirecionada para a página de rastreamento do pedido.
