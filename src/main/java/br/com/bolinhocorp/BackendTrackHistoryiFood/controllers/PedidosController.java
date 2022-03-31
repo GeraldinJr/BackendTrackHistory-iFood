@@ -109,7 +109,8 @@ public class PedidosController {
 
 			Integer idPessoaEntregadora = MethodsUtil.getIdPessoa();
 			
-			if(serviceTrack.recuperarUltimoPelaPessoaId(idPessoaEntregadora).getPedido().getStatusPedido().equals(Status.EM_ROTA)) {
+			if(serviceTrack.recuperarUltimoPelaPessoaId(idPessoaEntregadora)!=null && 
+			   serviceTrack.recuperarUltimoPelaPessoaId(idPessoaEntregadora).getPedido().getStatusPedido().equals(Status.EM_ROTA)) {
 				throw new NaoAutorizadoException("Pessoa entregadora com pedido em andamento");
 			}
 			
