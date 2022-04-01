@@ -60,7 +60,8 @@ public class PedidosController {
 
 			Integer total = dao.total();
 			Integer numPag = numeroPagina.orElseGet(() -> 1);
-			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			Integer tamPag = tamanhoPagina.orElseGet(() -> 10) ;
+			tamPag = tamPag > 100? 100 : tamPag;
 			Integer offset = (numPag -1) * tamPag;
 			if (offset > total) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
 
@@ -86,6 +87,7 @@ public class PedidosController {
 			Integer total = dao.totalEmAberto();
 			Integer numPag = numeroPagina.orElseGet(() -> 1);
 			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			tamPag = tamPag > 100? 100 : tamPag;
 			Integer offset = (numPag -1) * tamPag;
 			if (offset > total) throw new DadosInvalidosException("A Página selecionada não existe, selecione outra página ou altere o tamanho dessa");
 

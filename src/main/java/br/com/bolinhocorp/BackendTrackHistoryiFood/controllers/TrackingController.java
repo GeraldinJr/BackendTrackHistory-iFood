@@ -101,6 +101,7 @@ public class TrackingController {
 			Integer total = dao.total(id);
 			Integer numPag = numeroPagina.orElseGet(() -> 1);
 			Integer tamPag = tamanhoPagina.orElseGet(() -> 10);
+			tamPag = tamPag > 100? 100 : tamPag;
 			Integer offset = (numPag -1) * tamPag;
 
 			List<DadosGeoMaisInstDTO> lista = serviceTrack.recuperarTodos(id, offset, tamPag);

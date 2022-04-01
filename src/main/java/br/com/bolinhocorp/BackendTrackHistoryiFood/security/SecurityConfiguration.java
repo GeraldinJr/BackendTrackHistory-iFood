@@ -22,14 +22,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/login").permitAll()
 					  .antMatchers(HttpMethod.POST, "/pessoa-entregadora/cadastro").permitAll()
 					  .antMatchers("/swagger-ui*/**", "/techgeeknext-openapi/**", "/api-docs*/**").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui/index.html").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui.css").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-standalone-preset.js").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui/swagger-ui-bundle.js").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/api-docs/swagger-config").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/api-docs").permitAll()
-//					  .antMatchers(HttpMethod.GET, "/swagger-ui/favicon-32x32.png").permitAll()
 					  .anyRequest().authenticated().and().cors();
 		httpSec.addFilterBefore(new Filter(), UsernamePasswordAuthenticationFilter.class);
 		

@@ -19,7 +19,6 @@ public class TrackHistoryImple implements ITrackHistoryService {
 
 	@Override
 	public TrackHistory cadastrarTracking(TrackHistory track) {
-		// Fazer validacoes
 		try {
 
 			track.setId(null);
