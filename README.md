@@ -92,7 +92,7 @@ Funcionalidades que a API oferece:
 
 Este projeto está sob a licença de Bolinho de Java Corp.
 
-### Endpoints:
+## ✅ Endpoints:
 
 #### - POST: /pessoa-entregadora/login
 
