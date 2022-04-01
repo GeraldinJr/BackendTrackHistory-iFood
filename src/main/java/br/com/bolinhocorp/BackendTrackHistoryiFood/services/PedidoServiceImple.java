@@ -1,14 +1,21 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.services;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.TrackHistoryDAO;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PedidoDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 @Component
+@EnableScheduling
 public class PedidoServiceImple implements IPedidoService{
 	
 	@Autowired
@@ -25,22 +32,40 @@ public class PedidoServiceImple implements IPedidoService{
 	}
 
 	@Override
-	public void colocarEmRota(int id) {
-		Pedido p = dao.findById(id).orElse(null);
-		p.setStatusPedido(Status.EM_ROTA);
-		dao.save(p);
+	public void colocarEmRota(Pedido pedido) {
+		pedido.setStatusPedido(Status.EM_ROTA);
+		atualizarUltimaAlteracao(pedido);
+		dao.save(pedido);
 
 	}
 
 	@Override
 	public void concluir(Pedido pedido) {
 		pedido.setStatusPedido(Status.CONCLUIDO);
+		atualizarUltimaAlteracao(pedido);
 		dao.save(pedido);
 	}
 
 	@Override
 	public void cancelar(Pedido pedido) {
-		pedido.setStatusPedido(Status.CANCELADO);
+		pedido.setStatusPedido(Status.EM_ABERTO);
+		atualizarUltimaAlteracao(pedido);
 		dao.save(pedido);
+	}
+
+	@Override
+	public void atualizarUltimaAlteracao(Pedido pedido) {
+		pedido.setUltimaAlteracao(new Timestamp(System.currentTimeMillis()));
+	}
+
+	@Override
+	@Scheduled(fixedDelay = 35 * MethodsUtil.MINUTOS)
+	public void cancelarPedidosEsquecidos() {
+		List<Pedido> lista = dao.pedidosEsquecidos();
+		for(Pedido p: lista) {
+			p.setStatusPedido(Status.CANCELADO);
+			atualizarUltimaAlteracao(p);
+			dao.save(p);
+		}
 	}
 }

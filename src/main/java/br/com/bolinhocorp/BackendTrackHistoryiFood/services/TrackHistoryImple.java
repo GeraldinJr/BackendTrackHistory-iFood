@@ -19,7 +19,6 @@ public class TrackHistoryImple implements ITrackHistoryService {
 
 	@Override
 	public TrackHistory cadastrarTracking(TrackHistory track) {
-		// Fazer validacoes
 		try {
 
 			track.setId(null);
@@ -32,10 +31,10 @@ public class TrackHistoryImple implements ITrackHistoryService {
 	}
 
 	@Override
-	public ArrayList<DadosGeoMaisInstDTO> recuperarTodos(Integer id) {
+	public ArrayList<DadosGeoMaisInstDTO> recuperarTodos(Integer id, Integer offset, Integer limit) {
 		try {
 			
-			List<TrackHistory> res = (List<TrackHistory>)dao.findByPedido_id(id);
+			List<TrackHistory> res = (List<TrackHistory>)dao.findByPedido_id(id, offset, limit);
 			
 			ArrayList<DadosGeoMaisInstDTO> lista = new ArrayList<DadosGeoMaisInstDTO>();
 			
@@ -53,6 +52,11 @@ public class TrackHistoryImple implements ITrackHistoryService {
 	@Override
 	public TrackHistory recuperarUltimoPeloPedidoId(Integer id) {
 		return dao.recuperarUltimoPeloPedidoId(id);
+	}
+
+	@Override
+	public TrackHistory recuperarUltimoPelaPessoaId(Integer id) {
+		return dao.recuperarUltimoPelaPessoaId(id);
 	}
 
 }
