@@ -8,6 +8,8 @@ import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PessoaEntregadoraDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.PessoaLoginDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.TokenENomeDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.ErroInternoException;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.NaoAutorizadoAuthException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.PessoaEntregadora;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.Cripto;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.security.TokenUtil;
@@ -27,7 +29,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 				String senhaLogin = Cripto.encrypt(dadosLogin.getSenha());
 				
 				if(!pessoa.getSenha().equals(senhaLogin)) {
-					throw new DadosInvalidosException("E-mail e/ou senha incorreto(s)");
+					throw new NaoAutorizadoAuthException("E-mail e/ou senha incorreto(s)");
 				}
 				
 				return new TokenENomeDTO(TokenUtil.createToken(dadosLogin, pessoa.getId()), pessoa.getNome());
@@ -35,8 +37,11 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 			}
 
 			return null;
-		} catch (Exception e) {
-			throw new DadosInvalidosException(e.getMessage());
+		} catch(NaoAutorizadoAuthException e) {
+			throw new NaoAutorizadoAuthException(e.getMessage());
+		}
+		catch (Exception e) {
+			throw new ErroInternoException(e.getMessage());
 		}
 	}
 
@@ -61,7 +66,7 @@ public class PessoaEntregadoraImple implements IPessoaEntregadora {
 		} catch (NullPointerException ex) {
 			throw new DadosInvalidosException("Dados invalidos");
 		} catch (Exception e) {
-			throw new DadosInvalidosException(e.getMessage());
+			throw new ErroInternoException(e.getMessage());
 		}
 	}
 

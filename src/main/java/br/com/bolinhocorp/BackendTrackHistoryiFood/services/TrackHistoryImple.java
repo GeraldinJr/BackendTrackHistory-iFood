@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.TrackHistoryDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dto.DadosGeoMaisInstDTO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.DadosInvalidosException;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.exceptions.ErroInternoException;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.TrackHistory;
 
 @Component
@@ -45,7 +46,7 @@ public class TrackHistoryImple implements ITrackHistoryService {
 			return lista;
 
 		} catch (Exception e) {
-			throw new DadosInvalidosException(e.getMessage());
+			throw new ErroInternoException(e.getMessage());
 		}
 	}
 

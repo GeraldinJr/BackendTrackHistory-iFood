@@ -1,8 +1,8 @@
 package br.com.bolinhocorp.BackendTrackHistoryiFood.services;
 
-import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.TrackHistoryDAO;
-import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
-import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 
 import br.com.bolinhocorp.BackendTrackHistoryiFood.dao.PedidoDAO;
 import br.com.bolinhocorp.BackendTrackHistoryiFood.models.Pedido;
-
-import java.sql.Timestamp;
-import java.util.List;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.MethodsUtil;
+import br.com.bolinhocorp.BackendTrackHistoryiFood.util.Status;
 
 @Component
 @EnableScheduling
